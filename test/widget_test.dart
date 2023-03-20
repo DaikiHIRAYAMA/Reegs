@@ -10,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:zajonc/main.dart';
 import 'package:zajonc/views/friendsListPage.dart';
+import 'package:zajonc/views/index.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
