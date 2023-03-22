@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:zajonc/constants/appbar.dart';
-import 'package:zajonc/views/friendsListPage.dart';
+import 'package:zajonc/views/friends_list_page.dart';
 
-class nearFriendListPage extends StatelessWidget {
-  const nearFriendListPage({Key? key}) : super(key: key);
+class NearFriendListPage extends StatelessWidget {
+  const NearFriendListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class nearFriendListPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            friendListPage())); //ここに作成したルートを書いてデバッグできる
+                            const FriendListPage())); //ここに作成したルートを書いてデバッグできる
               },
               child: const Text('page2'),
             ))));

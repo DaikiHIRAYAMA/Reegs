@@ -2,16 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:zajonc/constants/appbar.dart';
-import 'package:zajonc/views/friendsListPage.dart';
+import 'package:zajonc/views/friends_list_page.dart';
 
-class maybeFriendListPage extends StatelessWidget {
-  const maybeFriendListPage({Key? key}) : super(key: key);
+class MyProfilePage extends StatelessWidget {
+  const MyProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(
-          title: 'Maybe Friend List',
+          title: 'My Profile',
           backgroundColor: Color.fromARGB(255, 235, 60, 255),
           textColor: Colors.black,
         ),
@@ -35,7 +35,7 @@ class maybeFriendListPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            friendListPage())); //ここに作成したルートを書いてデバッグできる
+                            const FriendListPage())); //ここに作成したルートを書いてデバッグできる
               },
               child: const Text('page3'),
             ),
