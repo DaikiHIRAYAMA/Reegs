@@ -2,9 +2,11 @@
 //ナビゲーションバーの設定
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:zajonc/views/friend_detail_page.dart';
 // import 'package:zajonc/constants/splashscreen.dart';
 // import 'package:zajonc/views/accout_page.dart';
 import 'package:zajonc/views/friends_list_page.dart';
+import 'package:zajonc/views/profile_edit_page.dart';
 // import 'package:zajonc/views/login_page.dart';
 import 'package:zajonc/views/profile_page.dart';
 import 'package:zajonc/views/near_friends_list_page.dart';
@@ -15,27 +17,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      // theme: ThemeData.dark().copyWith(
-      //   primaryColor: Colors.green,
-      //   textButtonTheme: TextButtonThemeData(
-      //     style: TextButton.styleFrom(
-      //       foregroundColor: Colors.green,
-      //     ),
-      //   ),
-      //   elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //       foregroundColor: Colors.white,
-      //       backgroundColor: Colors.green,
-      //     ),
-      //   ),
-      // ),
-      // initialRoute: '/',
-      // routes: <String, WidgetBuilder>{
-      //   '/': (_) => const SplashPage(),
-      //   '/login': (_) => const LoginPage(),
-      //   '/account': (_) => const AccountPage(),
-      // },
-
       home: LiquidSwipeViews(),
     );
   }
@@ -54,12 +35,21 @@ class LiquidSwipeViews extends StatelessWidget {
       child: const NearFriendListPage(),
     ),
     Container(
-      child: const MyProfilePage(),
+      child: const FriendDetailPage(),
     ),
+    Container(
+        child: PageView(
+      scrollDirection: Axis.vertical,
+      children: const [
+        MyProfilePage(),
+        MyProfileEditPage(),
+      ],
+    )),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final PageController controller = PageController();
     return Scaffold(
       body: LiquidSwipe.builder(
         initialPage: 0, //友達一覧の表示
