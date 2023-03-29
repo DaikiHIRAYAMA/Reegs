@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zajonc/constants/appbar.dart';
 import 'package:zajonc/constants/background_color.dart';
-import 'package:zajonc/views/friend_detail_page.dart';
-import 'package:zajonc/views/friends_list_page.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:zajonc/views/friends/friend_detail_page.dart';
 
 // ignore: unused_element
 class FriendDetailState extends State<FriendDetailPage> {

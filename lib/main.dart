@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:zajonc/views/index.dart';
 
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:zajonc/index.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

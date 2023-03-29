@@ -8,6 +8,7 @@
     "riverpod",
     "Schyler",
     "Supabase",
+    "viewmodel",
     "zajonc"
   ]
 }

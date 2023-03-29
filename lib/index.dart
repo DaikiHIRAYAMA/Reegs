@@ -2,14 +2,12 @@
 //ナビゲーションバーの設定
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:zajonc/views/friend_detail_page.dart';
-// import 'package:zajonc/constants/splashscreen.dart';
-// import 'package:zajonc/views/accout_page.dart';
-import 'package:zajonc/views/friends_list_page.dart';
-import 'package:zajonc/views/profile_edit_page.dart';
-// import 'package:zajonc/views/login_page.dart';
-import 'package:zajonc/views/profile_page.dart';
-import 'package:zajonc/views/near_friends_list_page.dart';
+import 'package:zajonc/views/friends/friends_list_page.dart';
+import 'package:zajonc/views/login/login_page.dart';
+import 'package:zajonc/views/friends/near_friends_list_page.dart';
+import 'package:zajonc/views/profiles/profile_edit_page.dart';
+import 'package:zajonc/views/profiles/profile_page.dart';
+import 'package:zajonc/views/register/innate_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,10 +30,10 @@ class LiquidSwipeViews extends StatelessWidget {
       child: const FriendListPage(), //ここでページ指定
     ),
     Container(
-      child: const NearFriendListPage(),
+      child: InnatePage(),
     ),
     Container(
-      child: const FriendDetailPage(),
+      child: const LoginPage(),
     ),
     Container(
         child: PageView(
