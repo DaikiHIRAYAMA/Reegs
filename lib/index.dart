@@ -8,6 +8,7 @@ import 'package:zajonc/views/friends/near_friends_list_page.dart';
 import 'package:zajonc/views/profiles/profile_edit_page.dart';
 import 'package:zajonc/views/profiles/profile_page.dart';
 import 'package:zajonc/views/register/innate_page.dart';
+import 'package:zajonc/views/register/position_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,7 +28,7 @@ class LiquidSwipeViews extends StatelessWidget {
   static List<Widget> pages = <Widget>[
     //スワイプ先
     Container(
-      child: const FriendListPage(), //ここでページ指定
+      child: PositionPage(), //ここでページ指定
     ),
     Container(
       child: InnatePage(),
