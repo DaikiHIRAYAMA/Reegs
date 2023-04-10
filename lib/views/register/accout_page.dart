@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zajonc/constants/snackbar.dart';
 
+import '../login/login_page.dart';
+
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
@@ -10,13 +12,12 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final _usernameController = TextEditingController();
-  final _websiteController = TextEditingController();
+  final _characterNameController = TextEditingController();
   String? _avatarUrl;
   var _loading = false;
 
   /// Called once a user id is received within `onAuthenticated()`
-  Future<void> _getProfile() async {
+  Future<void> _getCharacter() async {
     setState(() {
       _loading = true;
     });
@@ -24,12 +25,11 @@ class _AccountPageState extends State<AccountPage> {
     try {
       final userId = supabase.auth.currentUser!.id;
       final data = await supabase
-          .from('profiles')
+          .from('characters')
           .select()
           .eq('id', userId)
           .single() as Map;
-      _usernameController.text = (data['username'] ?? '') as String;
-      _websiteController.text = (data['website'] ?? '') as String;
+      _characterNameController.text = (data['username'] ?? '') as String;
       _avatarUrl = (data['avatar_url'] ?? '') as String;
     } on PostgrestException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -42,24 +42,23 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
-  /// Called when user taps `Update` button
-  Future<void> _updateProfile() async {
+  Future<void> _registerProfile() async {
     setState(() {
       _loading = true;
     });
-    final userName = _usernameController.text;
-    final website = _websiteController.text;
+    final characterName = _characterNameController.text;
+    // final website = _websiteController.text;
     final user = supabase.auth.currentUser;
     final updates = {
       'id': user!.id,
-      'username': userName,
-      'website': website,
+      'name': characterName,
+      // 'website': website,
       'updated_at': DateTime.now().toIso8601String(),
     };
     try {
-      await supabase.from('profiles').upsert(updates);
+      await supabase.from('characters').upsert(updates);
       if (mounted) {
-        context.showSnackBar(message: 'Successfully updated profile!');
+        context.showSnackBar(message: 'Successfully updated profile!'); //TODO
       }
     } on PostgrestException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -71,55 +70,57 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
-  Future<void> _signOut() async {
-    try {
-      await supabase.auth.signOut();
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
-    }
-    if (mounted) {
-      Navigator.of(context).pushReplacementNamed('/');
-    }
-  }
+  // Future<void> _signOut() async {
+  //   try {
+  //     await supabase.auth.signOut();
+  //   } on AuthException catch (error) {
+  //     context.showErrorSnackBar(message: error.message);
+  //   } catch (error) {
+  //     context.showErrorSnackBar(message: 'Unexpected error occurred');
+  //   }
+  //   if (mounted) {
+  //     Navigator.of(context).pushReplacementNamed('/');
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    _getProfile();
+    _getCharacter();
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
-    _websiteController.dispose();
+    _characterNameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(title: const Text('名前を入力してください')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
           TextFormField(
-            controller: _usernameController,
+            controller: _characterNameController,
             decoration: const InputDecoration(labelText: 'User Name'),
           ),
           const SizedBox(height: 18),
-          TextFormField(
-            controller: _websiteController,
-            decoration: const InputDecoration(labelText: 'Website'),
-          ),
+          // TextFormField(
+          //   controller: _websiteController,
+          //   decoration: const InputDecoration(labelText: 'Website'),
+          // ),
           const SizedBox(height: 18),
           ElevatedButton(
-            onPressed: _updateProfile,
-            child: Text(_loading ? 'Saving...' : 'Update'),
+            onPressed: () {
+              _registerProfile();
+              Navigator.pushNamed(context, '/innate');
+            },
+            child: Text(_loading ? 'Saving...' : '決定'),
           ),
-          const SizedBox(height: 18),
-          TextButton(onPressed: _signOut, child: const Text('Sign Out')),
+          // const SizedBox(height: 18),
+          // TextButton(onPressed: _signOut, child: const Text('Sign Out')),
         ],
       ),
     );

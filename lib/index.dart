@@ -1,25 +1,16 @@
-//My Appの設定
-//ナビゲーションバーの設定
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:zajonc/constants/splashscreen.dart';
+import 'package:zajonc/views/register/accout_page.dart';
 import 'package:zajonc/views/friends/friends_list_page.dart';
 import 'package:zajonc/views/login/login_page.dart';
 import 'package:zajonc/views/friends/near_friends_list_page.dart';
 import 'package:zajonc/views/profiles/profile_edit_page.dart';
 import 'package:zajonc/views/profiles/profile_page.dart';
+import 'package:zajonc/views/register/acquired_page.dart';
 import 'package:zajonc/views/register/innate_page.dart';
 import 'package:zajonc/views/register/position_page.dart';
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LiquidSwipeViews(),
-    );
-  }
-}
 
 class LiquidSwipeViews extends StatelessWidget {
   //スワイプエフェクト
@@ -34,7 +25,7 @@ class LiquidSwipeViews extends StatelessWidget {
       child: InnatePage(),
     ),
     Container(
-      child: const LoginPage(),
+      child: AcquiredPage(),
     ),
     Container(
         child: PageView(
