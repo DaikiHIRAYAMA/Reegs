@@ -107,10 +107,6 @@ class _AccountPageState extends State<AccountPage> {
             decoration: const InputDecoration(labelText: 'User Name'),
           ),
           const SizedBox(height: 18),
-          // TextFormField(
-          //   controller: _websiteController,
-          //   decoration: const InputDecoration(labelText: 'Website'),
-          // ),
           const SizedBox(height: 18),
           ElevatedButton(
             onPressed: () {
@@ -119,8 +115,6 @@ class _AccountPageState extends State<AccountPage> {
             },
             child: Text(_loading ? 'Saving...' : '決定'),
           ),
-          // const SizedBox(height: 18),
-          // TextButton(onPressed: _signOut, child: const Text('Sign Out')),
         ],
       ),
     );

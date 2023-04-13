@@ -6,6 +6,7 @@ import 'package:zajonc/views/login/login_page.dart';
 import 'package:zajonc/views/register/accout_page.dart';
 import 'package:zajonc/views/register/acquired_page.dart';
 import 'package:zajonc/views/register/innate_page.dart';
+import 'package:zajonc/views/register/position_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         '/account': (_) => const AccountPage(),
         '/innate': (_) => InnatePage(),
         '/acquired': (_) => AcquiredPage(),
+        '/position': (_) => PositionPage(),
       },
     );
   }
