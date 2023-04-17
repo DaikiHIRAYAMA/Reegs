@@ -1,7 +1,7 @@
 //友達かもの表示ページ
 
 import 'package:flutter/material.dart';
-import 'package:zajonc/view_models/profiles/profile_viewmodel.dart';
+import 'package:reegs/view_models/profiles/profile_viewmodel.dart';
 
 class MyProfilePage extends StatelessWidget {
   const MyProfilePage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zajonc/constants/snackbar.dart';
+import 'package:reegs/constants/snackbar.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
