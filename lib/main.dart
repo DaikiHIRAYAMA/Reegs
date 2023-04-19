@@ -11,10 +11,6 @@ import 'package:reegs/views/register/position_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Line SDKの設定
-  // LineSDK.instance.setup(dotenv.get('CHANEL_ID')).then((_) {
-  //   print("LineSDK Prepared");
-  // });
 
   // .envを読み込めるように設定
   await dotenv.load(fileName: '.env');
@@ -22,6 +18,9 @@ Future<void> main() async {
     url: dotenv.get('VAR_URL'), // .envのURLを取得
     anonKey: dotenv.get('VAR_ANONKEY'), // .envのanonを取得
   );
+
+  //Line SDKの設定
+  await LineSDK.instance.setup(dotenv.get('CHANEL_ID'));
 
   runApp(MyApp());
 }
