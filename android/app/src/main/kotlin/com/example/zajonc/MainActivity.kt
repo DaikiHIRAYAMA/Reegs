@@ -1,4 +1,4 @@
-package com.example.zajonc
+package com.example.reegs
 
 import io.flutter.embedding.android.FlutterActivity
 

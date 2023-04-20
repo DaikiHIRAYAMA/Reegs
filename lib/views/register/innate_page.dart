@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:zajonc/constants/snackbar.dart';
+import 'package:reegs/constants/snackbar.dart';
 import 'package:intl/intl.dart';
 
 class InnatePage extends StatefulWidget {

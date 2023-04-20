@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:zajonc/constants/snackbar.dart';
+import 'package:reegs/constants/snackbar.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,6 +33,29 @@ class _LoginPageState extends State<LoginPage> {
         context.showSnackBar(message: 'Check your email for login link!');
         _emailController.clear();
       }
+    } on AuthException catch (error) {
+      context.showErrorSnackBar(message: error.message);
+    } catch (error) {
+      context.showErrorSnackBar(message: 'Unexpected error occurred');
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _lineLogin() async {
+    await LineSDK.instance.setup("LINE_CHANNEL_ID");
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final result =
+          await LineSDK.instance.login(scopes: ["profile", "openid"]);
+      // user id -> result.userProfile?.userId
+      // user name -> result.userProfile?.displayName
+
+      // ログイン成功時の処理
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
@@ -81,6 +105,14 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             onPressed: _isLoading ? null : _signIn,
             child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+          ),
+          ElevatedButton(
+            onPressed: _isLoading
+                ? null
+                : () async {
+                    await _lineLogin();
+                  },
+            child: Text(_isLoading ? 'Loading' : 'LINE Login'),
           ),
         ],
       ),

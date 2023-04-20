@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:zajonc/constants/splashscreen.dart';
-import 'package:zajonc/views/login/login_page.dart';
-import 'package:zajonc/views/register/accout_page.dart';
-import 'package:zajonc/views/register/acquired_page.dart';
-import 'package:zajonc/views/register/innate_page.dart';
-import 'package:zajonc/views/register/position_page.dart';
+import 'package:reegs/constants/splashscreen.dart';
+import 'package:reegs/views/login/login_page.dart';
+import 'package:reegs/views/register/accout_page.dart';
+import 'package:reegs/views/register/acquired_page.dart';
+import 'package:reegs/views/register/innate_page.dart';
+import 'package:reegs/views/register/position_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Line SDKの設定
-  // LineSDK.instance.setup(dotenv.get('CHANEL_ID')).then((_) {
-  //   print("LineSDK Prepared");
-  // });
 
   // .envを読み込めるように設定
   await dotenv.load(fileName: '.env');
@@ -22,7 +19,10 @@ Future<void> main() async {
     anonKey: dotenv.get('VAR_ANONKEY'), // .envのanonを取得
   );
 
-  runApp(const MyApp());
+  //Line SDKの設定
+  await LineSDK.instance.setup(dotenv.get('CHANEL_ID'));
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         //ここにルーティングをかく
         '/': (_) => const SplashPage(),
-        '/login': (_) => const LoginPage(),
+        '/login': (_) => LoginPage(),
         '/account': (_) => const AccountPage(),
         '/innate': (_) => InnatePage(),
         '/acquired': (_) => AcquiredPage(),
