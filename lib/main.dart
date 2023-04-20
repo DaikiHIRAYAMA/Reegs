@@ -14,13 +14,15 @@ Future<void> main() async {
 
   // .envを読み込めるように設定
   await dotenv.load(fileName: '.env');
+
+  //supabaseの初期化
   await Supabase.initialize(
     url: dotenv.get('VAR_URL'), // .envのURLを取得
     anonKey: dotenv.get('VAR_ANONKEY'), // .envのanonを取得
   );
 
   //Line SDKの設定
-  await LineSDK.instance.setup(dotenv.get('CHANEL_ID'));
+  await LineSDK.instance.setup(dotenv.get('CHANNEL_ID'));
 
   runApp(MyApp());
 }
