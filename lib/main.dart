@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Supabase Flutter',
       theme: ThemeData.dark().copyWith(
         primaryColor: Colors.green,
+        textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'TaleSys'),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: Colors.green,
