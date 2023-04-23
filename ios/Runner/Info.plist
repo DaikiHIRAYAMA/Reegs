@@ -48,7 +48,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 
-<key>CFBundleURLTypes</key>
+<!-- <key>CFBundleURLTypes</key>
 <array>
     <dict>
         <key>CFBundleURLSchemes</key>
@@ -58,15 +58,19 @@
         <key>CFBundleURLName</key>
         <string>LINE Login</string>
     </dict>
-    <dict>
+</array> -->
+
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
-            <string>supabase-io-flutterquickstart</string>
+            <string>io.supabase.flutterquickstart</string>
         </array>
-        <key>CFBundleURLName</key>
-        <string>Supabase</string>
-    </dict>
-</array>
+        </dict>
+    </array>
 
 <key>LSApplicationQueriesSchemes</key>
 <array>

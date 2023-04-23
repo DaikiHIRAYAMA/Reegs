@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:reegs/app.dart';
+import 'package:reegs/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
-
-import '../login/login_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -69,19 +69,6 @@ class _AccountPageState extends State<AccountPage> {
       _loading = false;
     });
   }
-
-  // Future<void> _signOut() async {
-  //   try {
-  //     await supabase.auth.signOut();
-  //   } on AuthException catch (error) {
-  //     context.showErrorSnackBar(message: error.message);
-  //   } catch (error) {
-  //     context.showErrorSnackBar(message: 'Unexpected error occurred');
-  //   }
-  //   if (mounted) {
-  //     Navigator.of(context).pushReplacementNamed('/');
-  //   }
-  // }
 
   @override
   void initState() {
