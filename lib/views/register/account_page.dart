@@ -85,7 +85,10 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('名前を入力してください')),
+      appBar: AppBar(
+        title: Text('NAME?'),
+      ),
+      backgroundColor: Color.fromRGBO(255, 244, 213, 1),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
@@ -95,12 +98,23 @@ class _AccountPageState extends State<AccountPage> {
           ),
           const SizedBox(height: 18),
           const SizedBox(height: 18),
-          ElevatedButton(
+          ElevatedButton.icon(
+            icon: const Icon(
+              Icons.forward,
+              color: Colors.black,
+              size: 80, // アイコンを大きくする
+            ),
+            label: Text(_loading ? 'Saving...' : ''),
             onPressed: () {
               _registerProfile();
               Navigator.pushNamed(context, '/innate');
             },
-            child: Text(_loading ? 'Saving...' : '決定'),
+            style: ElevatedButton.styleFrom(
+              // primary: Theme.of(context).colorScheme.primary, // ボタンの背景色
+              onPrimary: Theme.of(context).colorScheme.onPrimary, // ボタンのテキスト色
+              elevation: 0, // ボタンの枠線をなくす
+              padding: EdgeInsets.only(bottom: 30), // アイコン表示場所を下に下げる
+            ),
           ),
         ],
       ),
