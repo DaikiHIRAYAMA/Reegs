@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:reegs/app.dart';
+// import 'package:reegs/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
@@ -113,6 +115,12 @@ class _LoginPageState extends State<LoginPage> {
                     await _lineLogin();
                   },
             child: Text(_isLoading ? 'Loading' : 'LINE Login'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/signup');
+            },
+            child: const Text('Sign Up'),
           ),
         ],
       ),
