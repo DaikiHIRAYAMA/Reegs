@@ -9,10 +9,10 @@ class AcquiredPage extends StatefulWidget {
   _AcquiredPage createState() => _AcquiredPage();
 }
 
-enum Question1 { test1, test2, test3, test4 }
+enum Question1 { test1, test2 }
 
 class _AcquiredPage extends State<AcquiredPage> {
-  Question1 _quiestion1 = Question1.test1;
+  Question1? _question1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,40 +27,52 @@ class _AcquiredPage extends State<AcquiredPage> {
               },
               icon: Icon(Icons.logout)),
         ],
-        title: const Text('Acquired'),
+        title: const Text('Question1'),
       ),
+      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: SafeArea(
-          child: Column(
-        children: [
-          SizedBox(width: 200, height: 50),
-          RadioListTile(
-            value: Question1.test1,
-            groupValue: _quiestion1,
-            onChanged: ((value) => _selectedQuestion(value)),
-          ),
-          RadioListTile(
-            value: Question1.test2,
-            groupValue: _quiestion1,
-            onChanged: ((value) => _selectedQuestion(value)),
-          ),
-          RadioListTile(
-            value: Question1.test3,
-            groupValue: _quiestion1,
-            onChanged: ((value) => _selectedQuestion(value)),
-          ),
-          RadioListTile(
-            value: Question1.test4,
-            groupValue: _quiestion1,
-            onChanged: ((value) => _selectedQuestion(value)),
-          ),
-        ],
-      )),
+        child: Column(
+          children: [
+            const Text(
+              'koko ni shitsumon ga hairuyo',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 200, height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: RadioListTile(
+                    value: Question1.test1,
+                    groupValue: _question1,
+                    onChanged: ((value) =>
+                        _selectedQuestion(value as Question1)),
+                    title: const Text('select A'),
+                  ),
+                ),
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: RadioListTile(
+                    value: Question1.test2,
+                    groupValue: _question1,
+                    onChanged: ((value) =>
+                        _selectedQuestion(value as Question1)),
+                    title: const Text('select B'),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
-  _selectedQuestion(value) {
+  _selectedQuestion(Question1? value) {
     setState(() {
-      _quiestion1 = value;
+      _question1 = value;
     });
+    Navigator.pushNamed(context, '/acquired');
   }
 }

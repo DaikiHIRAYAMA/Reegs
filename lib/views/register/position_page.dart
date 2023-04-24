@@ -37,94 +37,95 @@ class _PositionPageState extends State<PositionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select Your Position'),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50.0,
-            ),
-            Card(
-              // color: Colors.black12,
-              child: Column(children: [
-                RadioListTile(
-                  title: const Text('Eldest'),
-                  value: PositionValue.Eldest,
-                  groupValue: _positionValue,
-                  onChanged: (value) => _onRadioSelected(value),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.person, size: 48, color: Colors.red),
-                    Icon(Icons.person, size: 36, color: Colors.black),
-                    Icon(Icons.person, size: 30, color: Colors.black),
-                  ],
-                ),
-              ]),
-            ),
-            Card(
-              child: Column(children: [
-                RadioListTile(
-                  title: const Text('Middle'),
-                  value: PositionValue.Middle,
-                  groupValue: _positionValue,
-                  onChanged: (value) => _onRadioSelected(value),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.person, size: 48, color: Colors.black),
-                    Icon(Icons.person, size: 36, color: Colors.red),
-                    Icon(Icons.person, size: 30, color: Colors.black),
-                  ],
-                ),
-              ]),
-            ),
-            Card(
-              child: Column(children: [
-                RadioListTile(
-                  title: const Text('Youngest'),
-                  value: PositionValue.Youngest,
-                  groupValue: _positionValue,
-                  onChanged: (value) => _onRadioSelected(value),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.person, size: 48, color: Colors.black),
-                    Icon(Icons.person, size: 36, color: Colors.black),
-                    Icon(Icons.person, size: 30, color: Colors.red),
-                  ],
-                ),
-              ]),
-            ),
-            Card(
-              child: Column(children: [
-                RadioListTile(
-                  title: const Text('Only'),
-                  value: PositionValue.Only,
-                  groupValue: _positionValue,
-                  onChanged: (value) => _onRadioSelected(value),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.person, size: 48, color: Colors.red),
-                  ],
-                ),
-              ]),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  _registerPosition();
-                  Navigator.pushNamed(context, '/acquired');
-                },
-                child: const Text('NEXT'))
-          ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: AppBar(
+          title: const SizedBox(
+            child: Text('POSITION?'),
+          ),
         ),
+      ),
+      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+      body: Column(
+        children: [
+          Card(
+            // color: Colors.black12,
+            child: Column(children: [
+              RadioListTile(
+                title: const Text('Eldest'),
+                value: PositionValue.Eldest,
+                groupValue: _positionValue,
+                onChanged: (value) => _onRadioSelected(value),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.person, size: 48, color: Colors.red),
+                  Icon(Icons.person, size: 36, color: Colors.black),
+                  Icon(Icons.person, size: 30, color: Colors.black),
+                ],
+              ),
+            ]),
+          ),
+          Card(
+            child: Column(children: [
+              RadioListTile(
+                title: const Text('Middle'),
+                value: PositionValue.Middle,
+                groupValue: _positionValue,
+                onChanged: (value) => _onRadioSelected(value),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.person, size: 48, color: Colors.black),
+                  Icon(Icons.person, size: 36, color: Colors.red),
+                  Icon(Icons.person, size: 30, color: Colors.black),
+                ],
+              ),
+            ]),
+          ),
+          Card(
+            child: Column(children: [
+              RadioListTile(
+                title: const Text('Youngest'),
+                value: PositionValue.Youngest,
+                groupValue: _positionValue,
+                onChanged: (value) => _onRadioSelected(value),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.person, size: 48, color: Colors.black),
+                  Icon(Icons.person, size: 36, color: Colors.black),
+                  Icon(Icons.person, size: 30, color: Colors.red),
+                ],
+              ),
+            ]),
+          ),
+          Card(
+            child: Column(children: [
+              RadioListTile(
+                title: const Text('Only'),
+                value: PositionValue.Only,
+                groupValue: _positionValue,
+                onChanged: (value) => _onRadioSelected(value),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.person, size: 48, color: Colors.red),
+                ],
+              ),
+            ]),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                _registerPosition();
+                Navigator.pushNamed(context, '/acquired');
+              },
+              child: const Text('NEXT'))
+        ],
       ),
     );
   }
