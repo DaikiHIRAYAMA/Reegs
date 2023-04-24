@@ -79,53 +79,69 @@ class _InnatePageState extends State<InnatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('生年月日を入力してください')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _birthdayController.text, // 変数を参照
-              style: const TextStyle(
-                fontSize: 20.0, // 文字の大きさを指定
-                color: Colors.white, // 文字の色を指定
-                fontWeight: FontWeight.bold, // 文字の太さを指定
+      appBar: AppBar(title: const Text('BIRTHDAY?')),
+      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.all(0)), // この行を追加
               ),
+              child: Text(
+                _birthdayController.text.isEmpty
+                    ? 'TYPE HERE'
+                    : _birthdayController.text,
+                style: TextStyle(
+                    fontSize: 40,
+                    color: _birthdayController.text.isEmpty
+                        ? Colors.grey
+                        : Colors.black),
+              ),
+              onPressed: () {
+                DatePicker.showDatePicker(context,
+                    showTitleActions: true,
+                    minTime: DateTime(1950, 1, 1),
+                    maxTime: DateTime.now(),
+                    theme: const DatePickerTheme(
+                        headerColor: Colors.green,
+                        backgroundColor: Colors.black,
+                        itemStyle: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                        doneStyle:
+                            TextStyle(color: Colors.white, fontSize: 16)),
+                    onChanged: (date) {
+                  print('変更 $date');
+                }, onConfirm: (date) {
+                  print('確認 $date');
+                  _onDateSelected(date);
+                },
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.jp); //スタート位置変更できる
+              },
             ),
-            ElevatedButton(
-                onPressed: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(1950, 1, 1),
-                      maxTime: DateTime.now(),
-                      theme: const DatePickerTheme(
-                          headerColor: Colors.green,
-                          backgroundColor: Colors.black,
-                          itemStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                          doneStyle:
-                              TextStyle(color: Colors.white, fontSize: 16)),
-                      onChanged: (date) {
-                    print('change $date');
-                  }, onConfirm: (date) {
-                    print('confirm $date');
-                    _onDateSelected(date);
-                  }, currentTime: DateTime.now(), locale: LocaleType.jp);
-                },
-                child: const Text(
-                  '生年月日を入力してね',
-                  style: TextStyle(color: Colors.black),
-                )),
-            ElevatedButton(
-                onPressed: () {
-                  _registerBirthday();
-                  Navigator.pushNamed(context, '/position');
-                },
-                child: const Text('NEXT'))
-          ],
-        ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 80),
+            child: IconButton(
+              icon: const Icon(
+                Icons.forward,
+                color: Colors.black,
+                size: 80, // アイコンを大きくする
+              ),
+              onPressed: () {
+                _registerBirthday();
+                Navigator.pushNamed(context, '/position');
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

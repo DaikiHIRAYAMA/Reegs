@@ -86,34 +86,43 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('NAME?'),
+        title: const Text('NAME?'),
       ),
-      backgroundColor: Color.fromRGBO(255, 244, 213, 1),
+      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          TextFormField(
-            controller: _characterNameController,
-            decoration: const InputDecoration(labelText: 'User Name'),
-          ),
-          const SizedBox(height: 18),
-          const SizedBox(height: 18),
-          ElevatedButton.icon(
-            icon: const Icon(
-              Icons.forward,
-              color: Colors.black,
-              size: 80, // アイコンを大きくする
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            alignment: Alignment.center,
+            child: TextFormField(
+              controller: _characterNameController,
+              decoration: const InputDecoration(
+                // labelText: 'TYPE HERE',
+                hintText: 'TYPE HERE',
+                border: InputBorder.none,
+                floatingLabelBehavior:
+                    FloatingLabelBehavior.always, // ラベルを常に表示a
+                labelStyle:
+                    TextStyle(fontSize: 20, height: 2), // ラベルの文字サイズと高さ調整
+              ),
+              style: const TextStyle(fontSize: 40), // 文字を大きくする
+              textAlign: TextAlign.center, // テキストを中央寄せにする
             ),
-            label: Text(_loading ? 'Saving...' : ''),
-            onPressed: () {
-              _registerProfile();
-              Navigator.pushNamed(context, '/innate');
-            },
-            style: ElevatedButton.styleFrom(
-              // primary: Theme.of(context).colorScheme.primary, // ボタンの背景色
-              onPrimary: Theme.of(context).colorScheme.onPrimary, // ボタンのテキスト色
-              elevation: 0, // ボタンの枠線をなくす
-              padding: EdgeInsets.only(bottom: 30), // アイコン表示場所を下に下げる
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 80),
+            child: IconButton(
+              icon: const Icon(
+                Icons.forward,
+                color: Colors.black,
+                size: 80, // アイコンを大きくする
+              ),
+              onPressed: () {
+                _registerProfile();
+                Navigator.pushNamed(context, '/innate');
+              },
             ),
           ),
         ],
@@ -121,3 +130,16 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 }
+
+// List<TextSpan> _buildUnderlinedText(String text) {
+//   return text.split('').map((char) {
+//     return TextSpan(
+//       text: char + ' ',
+//       style: const TextStyle(
+//         decoration: TextDecoration.underline
+//         decorationStyle: TextDecorationStyle.solid,
+//         decorationColor: Colors.black,
+//       ),
+//     );
+//   }).toList();
+// }
