@@ -102,8 +102,7 @@ class _AccountPageState extends State<AccountPage> {
                 // labelText: 'TYPE HERE',
                 hintText: 'TYPE HERE',
                 border: InputBorder.none,
-                floatingLabelBehavior:
-                    FloatingLabelBehavior.always, // ラベルを常に表示a
+                floatingLabelBehavior: FloatingLabelBehavior.always, // ラベルを常に表示
                 labelStyle:
                     TextStyle(fontSize: 20, height: 2), // ラベルの文字サイズと高さ調整
               ),
@@ -112,7 +111,7 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 80),
+            padding: const EdgeInsets.symmetric(vertical: 80),
             child: IconButton(
               icon: const Icon(
                 Icons.forward,

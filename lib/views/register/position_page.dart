@@ -36,12 +36,15 @@ class _PositionPageState extends State<PositionPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
+        preferredSize: Size.fromHeight(screenHeight * 0.2),
         child: AppBar(
           title: const SizedBox(
-            child: Text('POSITION?'),
+            child: Text('SIBLINGS?'),
           ),
         ),
       ),
@@ -49,82 +52,89 @@ class _PositionPageState extends State<PositionPage> {
       body: Column(
         children: [
           Card(
-            // color: Colors.black12,
             child: Column(children: [
-              RadioListTile(
-                title: const Text('Eldest'),
-                value: PositionValue.Eldest,
-                groupValue: _positionValue,
-                onChanged: (value) => _onRadioSelected(value),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.person, size: 48, color: Colors.red),
-                  Icon(Icons.person, size: 36, color: Colors.black),
-                  Icon(Icons.person, size: 30, color: Colors.black),
-                ],
+              InkWell(
+                onTap: () {
+                  _onRadioSelected(PositionValue.Only);
+                  _registerPosition();
+                  Navigator.pushNamed(context, '/acquired');
+                  // 任意の遷移処理をここに追加してください
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('lib/assets/images/siblings/Only.png',
+                        width: screenWidth * 0.8,
+                        height: screenHeight * 0.15,
+                        fit: BoxFit.contain),
+                  ],
+                ),
               ),
             ]),
           ),
           Card(
             child: Column(children: [
-              RadioListTile(
-                title: const Text('Middle'),
-                value: PositionValue.Middle,
-                groupValue: _positionValue,
-                onChanged: (value) => _onRadioSelected(value),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.person, size: 48, color: Colors.black),
-                  Icon(Icons.person, size: 36, color: Colors.red),
-                  Icon(Icons.person, size: 30, color: Colors.black),
-                ],
-              ),
-            ]),
-          ),
-          Card(
-            child: Column(children: [
-              RadioListTile(
-                title: const Text('Youngest'),
-                value: PositionValue.Youngest,
-                groupValue: _positionValue,
-                onChanged: (value) => _onRadioSelected(value),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.person, size: 48, color: Colors.black),
-                  Icon(Icons.person, size: 36, color: Colors.black),
-                  Icon(Icons.person, size: 30, color: Colors.red),
-                ],
+              InkWell(
+                onTap: () {
+                  _onRadioSelected(PositionValue.Eldest);
+                  _registerPosition();
+                  Navigator.pushNamed(context, '/acquired');
+                  // 任意の遷移処理をここに追加してください
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('lib/assets/images/siblings/Eldest.png',
+                        width: screenWidth * 0.8,
+                        height: screenHeight * 0.15,
+                        fit: BoxFit.contain),
+                  ],
+                ),
               ),
             ]),
           ),
           Card(
             child: Column(children: [
-              RadioListTile(
-                title: const Text('Only'),
-                value: PositionValue.Only,
-                groupValue: _positionValue,
-                onChanged: (value) => _onRadioSelected(value),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.person, size: 48, color: Colors.red),
-                ],
+              InkWell(
+                onTap: () {
+                  _onRadioSelected(PositionValue.Middle);
+                  _registerPosition();
+                  Navigator.pushNamed(context, '/acquired');
+                  // 任意の遷移処理をここに追加してください
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('lib/assets/images/siblings/Middle.png',
+                        width: screenWidth * 0.8,
+                        height: screenHeight * 0.15,
+                        fit: BoxFit.contain),
+                  ],
+                ),
               ),
             ]),
           ),
-          ElevatedButton(
-              onPressed: () {
-                _registerPosition();
-                Navigator.pushNamed(context, '/acquired');
-              },
-              child: const Text('NEXT'))
+          Card(
+            child: Column(children: [
+              InkWell(
+                onTap: () {
+                  _onRadioSelected(PositionValue.Youngest);
+                  _registerPosition();
+                  Navigator.pushNamed(context, '/acquired');
+                  // 任意の遷移処理をここに追加してください
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('lib/assets/images/siblings/Youngest.png',
+                        width: screenWidth * 0.8,
+                        height: screenHeight * 0.15,
+                        fit: BoxFit.contain),
+                  ],
+                ),
+              ),
+            ]),
+          ),
         ],
       ),
     );

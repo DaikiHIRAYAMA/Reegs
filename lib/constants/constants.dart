@@ -36,4 +36,8 @@ final appTheme = ThemeData.light().copyWith(
         style: IconButton.styleFrom(
       iconSize: 80,
       focusColor: Colors.black,
-    )));
+    )),
+    cardTheme: const CardTheme(
+      elevation: 0,
+      color: Color.fromRGBO(255, 244, 213, 1),
+    ));
