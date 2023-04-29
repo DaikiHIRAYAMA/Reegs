@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
     if (session == null) {
       Navigator.of(context).pushReplacementNamed('/login');
     } else {
-      Navigator.of(context).pushReplacementNamed('/myprofile');
+      Navigator.of(context).pushReplacementNamed('/qrscan');
       // Navigator.of(context).pushReplacementNamed('/account');
     }
   }
