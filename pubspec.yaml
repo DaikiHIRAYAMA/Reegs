@@ -95,9 +95,9 @@ flutter:
 flutter_native_splash:
   color: "FFF4D5"
   image: "lib/assets/images/splashes/splash.png"
-  image_dark: "lib/assets/images/splashes/splash_dark.png"
+  # image_dark: "lib/assets/images/splashes/splash_dark.png"
   branding: "lib/assets/images/splashes/branding.png"
-  branding_dark: "lib/assets/images/splashes/branding_dark.png"
+  # branding_dark: "lib/assets/images/splashes/branding_dark.png"
   branding_mode: bottom
   fill: true
   android: true
