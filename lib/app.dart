@@ -6,8 +6,10 @@
 import 'package:flutter/material.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/constants/splashscreen.dart';
+import 'package:reegs/views/friends/qr_scan_page.dart';
 import 'package:reegs/views/login/login_page.dart';
 import 'package:reegs/views/login/signup_page.dart';
+import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/account_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
 import 'package:reegs/views/register/innate_page.dart';
@@ -32,9 +34,11 @@ class MyApp extends StatelessWidget {
           '/signup': (_) => const SignUpPage(
                 isRegistering: true,
               ),
+          '/myprofile': (_) => const MyProfilePage(),
           '/innate': (_) => InnatePage(),
           '/acquired': (_) => AcquiredPage(),
           '/position': (_) => PositionPage(),
+          '/qrscan': (_) => QrScanView(),
         });
   }
 }
