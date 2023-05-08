@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "231510617643",
+    "project_id": "reegs-81fd4",
+    "storage_bucket": "reegs-81fd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231510617643:android:08c45dda7aef935fa0c46e",
+        "android_client_info": {
+          "package_name": "com.example.reegs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231510617643-j4ql3433ln8408hlpnf5c2tars9j8vdb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0vY4HARfTKHUDhtppC2NZtRDcrf5lxcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231510617643-7u1kg0kdq4vs9c2n1908tp5fsqs9hm12.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "231510617643-9hc7n0m7uvdm22f95l2gl1maahrdad6h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.reegs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

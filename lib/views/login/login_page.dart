@@ -21,6 +21,23 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController _emailController;
   late final StreamSubscription<AuthState> _authStateSubscription;
 
+  Future<void> _signInGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await supabase.auth.signInWithOAuth(Provider.google);
+      if (mounted) {
+        context.showSnackBar(message: 'Login!');
+        _emailController.clear();
+      }
+    } on AuthException catch (error) {
+      context.showErrorSnackBar(message: error.message);
+    } catch (error) {
+      context.showErrorSnackBar(message: 'Unexpected error occurred');
+    }
+  }
+
   Future<void> _signIn() async {
     setState(() {
       _isLoading = true;
@@ -107,6 +124,14 @@ class _LoginPageState extends State<LoginPage> {
           ElevatedButton(
             onPressed: _isLoading ? null : _signIn,
             child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+          ),
+          ElevatedButton(
+            onPressed: _isLoading
+                ? null
+                : () async {
+                    await _signInGoogle();
+                  },
+            child: Text(_isLoading ? 'Loading' : 'Google Login'),
           ),
           ElevatedButton(
             onPressed: _isLoading
