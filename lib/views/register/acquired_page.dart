@@ -3,31 +3,43 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/views/login/login_page.dart';
+import 'package:reegs/view_models/register/acquired_viewmodel.dart';
 
 class AcquiredPage extends StatefulWidget {
+  final Question question;
+  AcquiredPage({required this.question});
+
   @override
   _AcquiredPage createState() => _AcquiredPage();
 }
 
-enum Question1 { test1, test2 }
-
 class _AcquiredPage extends State<AcquiredPage> {
-  Question1? _question1;
+  Question? _selectetedQuestionValue;
+
+  _selectedQuestion(Question? value) {
+    setState(() {
+      _selectetedQuestionValue = value;
+    });
+    if (widget.question == Question.q20) {
+      //最後の質問の場合、別の画面に遷移する
+    } else {
+      //次の質問に遷移
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AcquiredPage(
+            question: Question.values[widget.question.index + 1],
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                // ログアウトするボタン.
-                await Supabase.instance.client.auth.signOut();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-              icon: Icon(Icons.logout)),
-        ],
-        title: const Text('Question1'),
+        title: Text('Question ${widget.question.index + 1}'),
       ),
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: SafeArea(
@@ -44,20 +56,20 @@ class _AcquiredPage extends State<AcquiredPage> {
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: Question1.test1,
-                    groupValue: _question1,
+                    value: Question.values[widget.question.index * 2],
+                    groupValue: _selectetedQuestionValue,
                     onChanged: ((value) =>
-                        _selectedQuestion(value as Question1)),
+                        _selectedQuestion(value as Question)),
                     title: const Text('select A'),
                   ),
                 ),
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: Question1.test2,
-                    groupValue: _question1,
+                    value: Question.values[widget.question.index * 2 + 1],
+                    groupValue: _selectetedQuestionValue,
                     onChanged: ((value) =>
-                        _selectedQuestion(value as Question1)),
+                        _selectedQuestion(value as Question)),
                     title: const Text('select B'),
                   ),
                 ),
@@ -67,12 +79,5 @@ class _AcquiredPage extends State<AcquiredPage> {
         ),
       ),
     );
-  }
-
-  _selectedQuestion(Question1? value) {
-    setState(() {
-      _question1 = value;
-    });
-    Navigator.pushNamed(context, '/acquired');
   }
 }

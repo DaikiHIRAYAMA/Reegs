@@ -16,6 +16,8 @@ import 'package:reegs/views/register/innate_page.dart';
 import 'package:reegs/views/register/position_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'view_models/register/acquired_viewmodel.dart';
+
 final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
               ),
           '/myprofile': (_) => const MyProfilePage(),
           '/innate': (_) => InnatePage(),
-          '/acquired': (_) => AcquiredPage(),
+          '/acquired': (_) => AcquiredPage(question: Question.q1),
           '/position': (_) => PositionPage(),
           '/qrscan': (_) => QrScanView(),
         });
