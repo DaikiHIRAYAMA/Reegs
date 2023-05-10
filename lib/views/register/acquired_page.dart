@@ -15,6 +15,7 @@ class AcquiredPage extends StatefulWidget {
 
 class _AcquiredPage extends State<AcquiredPage> {
   Question? _selectetedQuestionValue;
+  int? _selectedAnswerIndex;
 
   _selectedQuestion(Question? value) {
     setState(() {
@@ -35,6 +36,15 @@ class _AcquiredPage extends State<AcquiredPage> {
     }
   }
 
+  _selectedAnswer(int? value) {
+    setState(() {
+      _selectedAnswerIndex = value;
+    });
+    _selectedQuestion(widget.question.index == Question.values.length - 1
+        ? null
+        : Question.values[widget.question.index + 1]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +55,8 @@ class _AcquiredPage extends State<AcquiredPage> {
       body: SafeArea(
         child: Column(
           children: [
-            const Text(
-              'koko ni shitsumon ga hairuyo',
+            Text(
+              questionTexts[widget.question]!,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 200, height: 50),
@@ -56,21 +66,21 @@ class _AcquiredPage extends State<AcquiredPage> {
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: Question.values[widget.question.index * 2],
-                    groupValue: _selectetedQuestionValue,
-                    onChanged: ((value) =>
-                        _selectedQuestion(value as Question)),
-                    title: const Text('select A'),
+                    value: 0,
+                    groupValue: _selectedAnswerIndex,
+                    onChanged: ((value) => _selectedAnswer(value as int)),
+                    title:
+                        Text(questionAnswers[widget.question]![0]), //回答Aのテキスト
                   ),
                 ),
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: Question.values[widget.question.index * 2 + 1],
-                    groupValue: _selectetedQuestionValue,
-                    onChanged: ((value) =>
-                        _selectedQuestion(value as Question)),
-                    title: const Text('select B'),
+                    value: 1,
+                    groupValue: _selectedAnswerIndex,
+                    onChanged: ((value) => _selectedAnswer(value as int)),
+                    title:
+                        Text(questionAnswers[widget.question]![1]), //回答Bのテキスト
                   ),
                 ),
               ],
