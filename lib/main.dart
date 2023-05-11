@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/app.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,5 +20,5 @@ Future<void> main() async {
   //Line SDKの設定
   await LineSDK.instance.setup(dotenv.get('CHANNEL_ID'));
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }

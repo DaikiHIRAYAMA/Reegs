@@ -1,3 +1,16 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reegs/models/register/acquired_model.dart';
+
+final EIProvider = StateNotifierProvider<EIController, List<int>>((ref) {
+  return EIController();
+});
+final NSProvider =
+    StateProvider<List<int>>((ref) => List.generate(20, ((index) => 0)));
+final FTProvider =
+    StateProvider<List<int>>((ref) => List.generate(20, ((index) => 0)));
+final JPProvider =
+    StateProvider<List<int>>((ref) => List.generate(20, ((index) => 0)));
+
 enum Question {
   q1,
   q2,

@@ -1,11 +1,13 @@
 // MBTIによる分類
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/views/login/login_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
+// import 'package:riverpod/riverpod.dart';
 
-class AcquiredPage extends StatefulWidget {
+class AcquiredPage extends ConsumerStatefulWidget {
   final Question question;
   AcquiredPage({required this.question});
 
@@ -13,7 +15,7 @@ class AcquiredPage extends StatefulWidget {
   _AcquiredPage createState() => _AcquiredPage();
 }
 
-class _AcquiredPage extends State<AcquiredPage> {
+class _AcquiredPage extends ConsumerState<AcquiredPage> {
   Question? _selectetedQuestionValue;
   int? _selectedAnswerIndex;
 
@@ -40,6 +42,18 @@ class _AcquiredPage extends State<AcquiredPage> {
     setState(() {
       _selectedAnswerIndex = value;
     });
+
+    if (value != null) {
+      //回答に基づいて配列を選択して加算
+      switch (value) {
+        case 0:
+          ref.read(EIProvider.notifier).increment(widget.question.index);
+          break;
+        case 1:
+          ref.read(EIProvider.notifier).decrement(widget.question.index);
+          break;
+      }
+    }
     _selectedQuestion(widget.question.index == Question.values.length - 1
         ? null
         : Question.values[widget.question.index + 1]);
