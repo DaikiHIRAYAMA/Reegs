@@ -11,6 +11,8 @@ import 'package:reegs/views/register/acquired_page.dart';
 import 'package:reegs/views/register/innate_page.dart';
 import 'package:reegs/views/register/position_page.dart';
 
+import 'view_models/register/acquired_viewmodel.dart';
+
 class LiquidSwipeViews extends StatelessWidget {
   //スワイプエフェクト
   const LiquidSwipeViews({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class LiquidSwipeViews extends StatelessWidget {
       child: InnatePage(),
     ),
     Container(
-      child: AcquiredPage(),
+      child: AcquiredPage(question: Question.q1),
     ),
     Container(
         child: PageView(
