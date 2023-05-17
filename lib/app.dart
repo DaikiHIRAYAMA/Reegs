@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           '/signup': (_) => const SignUpPage(
                 isRegistering: true,
               ),
-          '/myprofile': (_) => const MyProfilePage(),
+          '/myprofile': (_) => MyProfilePage(),
           '/innate': (_) => InnatePage(),
           '/acquired': (_) => AcquiredPage(question: Question.q1),
           '/position': (_) => PositionPage(),

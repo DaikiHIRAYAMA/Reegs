@@ -31,9 +31,9 @@ class LiquidSwipeViews extends StatelessWidget {
     Container(
         child: PageView(
       scrollDirection: Axis.vertical,
-      children: const [
+      children: [
         MyProfilePage(),
-        MyProfileEditPage(),
+        const MyProfileEditPage(),
       ],
     )),
   ];
