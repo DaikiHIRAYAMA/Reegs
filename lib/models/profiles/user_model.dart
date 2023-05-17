@@ -1,6 +1,6 @@
 // models/user.dart
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 
 class User {
   final Position position;
