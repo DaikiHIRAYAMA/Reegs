@@ -23,7 +23,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
     setState(() {
       _selectetedQuestionValue = value;
     });
-    if (widget.question == Question.q20) {
+    if (widget.question == Question.q64) {
       //最後の質問の場合、別の画面に遷移する
     } else {
       //次の質問に遷移
@@ -44,13 +44,43 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
     });
 
     if (value != null) {
+      print(value);
       //回答に基づいて配列を選択して加算
       switch (value) {
-        case 0:
+        //EI判断
+        case 10:
           ref.read(EIProvider.notifier).increment(widget.question.index);
           break;
-        case 1:
+        case 11:
           ref.read(EIProvider.notifier).decrement(widget.question.index);
+          break;
+        //NS判断
+        case 20:
+          ref.read(NSProvider.notifier).decrement(widget.question.index);
+          break;
+        case 21:
+          ref.read(NSProvider.notifier).decrement(widget.question.index);
+          break;
+        //FT判断
+        case 30:
+          ref.read(FTProvider.notifier).decrement(widget.question.index);
+          break;
+        case 31:
+          ref.read(FTProvider.notifier).decrement(widget.question.index);
+          break;
+        //JP判断
+        case 40:
+          ref.read(JPProvider.notifier).decrement(widget.question.index);
+          break;
+        case 41:
+          ref.read(JPProvider.notifier).decrement(widget.question.index);
+          break;
+        //DSM
+        case 50:
+          ref.read(HSPProvider.notifier).decrement(widget.question.index);
+          break;
+        case 51:
+          ref.read(HSPProvider.notifier).decrement(widget.question.index);
           break;
       }
     }
@@ -80,7 +110,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: 0,
+                    value: questionClass[widget.question]! + 0,
                     groupValue: _selectedAnswerIndex,
                     onChanged: ((value) => _selectedAnswer(value as int)),
                     title:
@@ -90,7 +120,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
                 Flexible(
                   fit: FlexFit.tight,
                   child: RadioListTile(
-                    value: 1,
+                    value: questionClass[widget.question]! + 1,
                     groupValue: _selectedAnswerIndex,
                     onChanged: ((value) => _selectedAnswer(value as int)),
                     title:
