@@ -55,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Sign up page'),
       ),
       body: Form(
         key: _formKey,

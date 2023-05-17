@@ -3,8 +3,8 @@ import 'package:reegs/constants/appbar.dart';
 import 'package:reegs/constants/background_color.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class MyProfile extends StatelessWidget {
-  const MyProfile({super.key});
+class MyProfileQRViewModel extends StatelessWidget {
+  const MyProfileQRViewModel({super.key});
 
   @override
   Widget build(BuildContext context) {
