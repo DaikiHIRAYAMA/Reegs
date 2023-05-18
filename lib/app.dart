@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく
-          '/': (_) => const SplashPage(),
+          '/': (_) => SplashPage(),
           '/login': (_) => const LoginPage(),
           '/account': (_) => const AccountPage(),
           '/signup': (_) => const SignUpPage(
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/acquired': (_) => AcquiredPage(question: Question.q1),
           '/position': (_) => PositionPage(),
           '/qrscan': (_) => QrScanView(),
-        });
+        },
+        home: SplashPage());
   }
 }
