@@ -12,6 +12,8 @@ import 'package:reegs/views/profiles/profile_page.dart';
 class SplashPage extends StatelessWidget {
   final store = Store();
 
+  SplashPage({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
           body: StreamBuilder<UserState>(
@@ -20,7 +22,7 @@ class SplashPage extends StatelessWidget {
           switch (snapshot.data) {
             case null:
             case UserState.waiting:
-              return Center(
+              return const Center(
                   child: SpinKitCircle(
                 size: 24,
                 color: Colors.black, //色を変えれます
