@@ -16,57 +16,34 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isLoading = false;
+  bool _isGoogleLoading = false;
+  bool _isLineLoading = false;
   bool _redirecting = false;
-  late final TextEditingController _emailController;
   late final StreamSubscription<AuthState> _authStateSubscription;
 
   Future<void> _signInGoogle() async {
     setState(() {
-      _isLoading = true;
+      _isGoogleLoading = true;
     });
     try {
       await supabase.auth.signInWithOAuth(Provider.google);
       if (mounted) {
         context.showSnackBar(message: 'Login!');
-        _emailController.clear();
       }
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
       context.showErrorSnackBar(message: 'Unexpected error occurred');
     }
-  }
-
-  Future<void> _signIn() async {
     setState(() {
-      _isLoading = true;
-    });
-    try {
-      await supabase.auth.signInWithOtp(
-        email: _emailController.text,
-        emailRedirectTo:
-            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
-      );
-      if (mounted) {
-        context.showSnackBar(message: 'Check your email for login link!');
-        _emailController.clear();
-      }
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
-    }
-
-    setState(() {
-      _isLoading = false;
+      _isGoogleLoading = false;
     });
   }
 
   Future<void> _lineLogin() async {
     await LineSDK.instance.setup("LINE_CHANNEL_ID");
     setState(() {
-      _isLoading = true;
+      _isLineLoading = true;
     });
     try {
       final result =
@@ -82,13 +59,12 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() {
-      _isLoading = false;
+      _isLineLoading = false;
     });
   }
 
   @override
   void initState() {
-    _emailController = TextEditingController();
     _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
       if (_redirecting) return;
       final session = data.session;
@@ -102,7 +78,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    _emailController.dispose();
     _authStateSubscription.cancel();
     super.dispose();
   }
@@ -114,38 +89,27 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Sign in via the magic link with your email below'),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
-          ),
-          const SizedBox(height: 18),
           ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
-          ),
-          ElevatedButton(
-            onPressed: _isLoading
+            onPressed: _isGoogleLoading
                 ? null
                 : () async {
                     await _signInGoogle();
                   },
-            child: Text(_isLoading ? 'Loading' : 'Google Login'),
+            child: Text(_isGoogleLoading ? 'Loading' : 'Google Login'),
           ),
           ElevatedButton(
-            onPressed: _isLoading
+            onPressed: _isLineLoading
                 ? null
                 : () async {
                     await _lineLogin();
                   },
-            child: Text(_isLoading ? 'Loading' : 'LINE Login'),
+            child: Text(_isLineLoading ? 'Loading' : 'LINE Login'),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/signup');
+              Navigator.pushNamed(context, '/account');
             },
-            child: const Text('Sign Up'),
+            child: const Text('Test時のみここからクリック'),
           ),
         ],
       ),

@@ -8,7 +8,6 @@ import 'package:reegs/constants/constants.dart';
 import 'package:reegs/constants/splashscreen.dart';
 import 'package:reegs/views/friends/qr_scan_page.dart';
 import 'package:reegs/views/login/login_page.dart';
-import 'package:reegs/views/login/signup_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/account_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
@@ -30,12 +29,9 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく
-          '/': (_) => const SplashPage(),
+          '/': (_) => SplashPage(),
           '/login': (_) => const LoginPage(),
           '/account': (_) => const AccountPage(),
-          '/signup': (_) => const SignUpPage(
-                isRegistering: true,
-              ),
           '/myprofile': (_) => MyProfilePage(),
           '/innate': (_) => InnatePage(),
           '/acquired': (_) => AcquiredPage(question: Question.q1),

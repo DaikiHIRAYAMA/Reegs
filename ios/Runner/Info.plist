@@ -47,17 +47,6 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<!-- <key>CFBundleURLTypes</key>
-<array>
-    <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-        </array>
-        <key>CFBundleURLName</key>
-        <string>LINE Login</string>
-    </dict>
-</array> -->
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
@@ -65,6 +54,8 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
+                <!-- TODO:$(PRODUCT_BUNDLE_IDENTIFIER)の変更  -->
+                    <string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 					<string>io.supabase.flutterquickstart</string>
 				</array>
 			</dict>
@@ -72,7 +63,7 @@
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>lineauth2</string>
-			<string>line</string>
+			<!-- <string>line</string> -->
 			<string>supabase</string>
 		</array>
 		<key>UIStatusBarHidden</key>
