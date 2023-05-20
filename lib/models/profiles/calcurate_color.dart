@@ -35,29 +35,29 @@ Color calculateColor(String birthdate) {
 
   switch (lifeNumber) {
     case 33:
-      return Colors.white;
+      return Colors.black38;
     case 22:
-      return Colors.blue;
+      return Colors.greenAccent;
     case 11:
-      return Colors.white;
+      return Colors.blueAccent;
     case 9:
-      return Colors.white;
+      return Colors.pinkAccent;
     case 8:
-      return Colors.white;
+      return Colors.orange;
     case 7:
-      return Colors.white;
+      return Colors.purple;
     case 6:
-      return Colors.white;
+      return Colors.pink;
     case 5:
-      return Colors.white;
+      return Colors.lightBlue;
     case 4:
-      return Colors.white;
+      return Colors.green;
     case 3:
-      return Colors.white;
+      return Colors.yellow;
     case 2:
-      return Colors.white;
+      return Colors.blue;
     case 1:
-      return Colors.white;
+      return Colors.red;
     default:
       return Colors.orange;
   }
