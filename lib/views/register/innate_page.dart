@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:reegs/app.dart';
 import 'package:reegs/constants/constants.dart';
+import 'package:reegs/models/profiles/calcurate_color.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
 import 'package:intl/intl.dart';
@@ -58,6 +59,9 @@ class _InnatePageState extends State<InnatePage> {
       'updated_at': DateTime.now().toIso8601String(),
     };
     try {
+      setState(() {
+        mainColor = calculateColor(birthday);
+      });
       await supabase.from('characters').upsert(updates);
       if (mounted) {
         context.showSnackBar(message: '生年月日を登録しました'); //TODO
