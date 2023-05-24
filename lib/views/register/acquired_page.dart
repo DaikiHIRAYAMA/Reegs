@@ -56,31 +56,108 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
           break;
         //NS判断
         case 20:
-          ref.read(NSProvider.notifier).decrement(widget.question.index);
+          ref.read(NSProvider.notifier).increment(widget.question.index);
           break;
         case 21:
           ref.read(NSProvider.notifier).decrement(widget.question.index);
           break;
         //FT判断
         case 30:
-          ref.read(FTProvider.notifier).decrement(widget.question.index);
+          ref.read(FTProvider.notifier).increment(widget.question.index);
           break;
         case 31:
           ref.read(FTProvider.notifier).decrement(widget.question.index);
           break;
         //JP判断
         case 40:
-          ref.read(JPProvider.notifier).decrement(widget.question.index);
+          ref.read(JPProvider.notifier).increment(widget.question.index);
           break;
         case 41:
           ref.read(JPProvider.notifier).decrement(widget.question.index);
           break;
-        //DSM
+        //HSP
         case 50:
-          ref.read(HSPProvider.notifier).decrement(widget.question.index);
+          ref.read(HSPProvider.notifier).increment(widget.question.index);
           break;
         case 51:
           ref.read(HSPProvider.notifier).decrement(widget.question.index);
+          break;
+        //サイコパス
+        case 60:
+          ref.read(PsyProvider.notifier).increment(widget.question.index);
+          break;
+        case 61:
+          ref.read(PsyProvider.notifier).decrement(widget.question.index);
+          break;
+        //ソシオパス
+        case 70:
+          ref.read(SocProvider.notifier).increment(widget.question.index);
+          break;
+        case 71:
+          ref.read(SocProvider.notifier).decrement(widget.question.index);
+          break;
+        // type1
+        case 110:
+          ref.read(En1Provider.notifier).increment(widget.question.index);
+          break;
+        case 111:
+          ref.read(En1Provider.notifier).decrement(widget.question.index);
+          break;
+        // type2
+        case 120:
+          ref.read(En2Provider.notifier).increment(widget.question.index);
+          break;
+        case 121:
+          ref.read(En2Provider.notifier).decrement(widget.question.index);
+          break;
+        // type3
+        case 130:
+          ref.read(En3Provider.notifier).increment(widget.question.index);
+          break;
+        case 131:
+          ref.read(En3Provider.notifier).decrement(widget.question.index);
+          break;
+        // type4
+        case 140:
+          ref.read(En4Provider.notifier).increment(widget.question.index);
+          break;
+        case 141:
+          ref.read(En4Provider.notifier).decrement(widget.question.index);
+          break;
+        // type5
+        case 150:
+          ref.read(En5Provider.notifier).increment(widget.question.index);
+          break;
+        case 151:
+          ref.read(En5Provider.notifier).decrement(widget.question.index);
+          break;
+        // type6
+        case 160:
+          ref.read(En6Provider.notifier).increment(widget.question.index);
+          break;
+        case 161:
+          ref.read(En6Provider.notifier).decrement(widget.question.index);
+          break;
+        // type7
+        case 170:
+          ref.read(En7Provider.notifier).increment(widget.question.index);
+          break;
+        case 171:
+          ref.read(En7Provider.notifier).decrement(widget.question.index);
+          break;
+        // type8
+        case 180:
+          ref.read(En8Provider.notifier).increment(widget.question.index);
+          break;
+        case 181:
+          ref.read(En8Provider.notifier).decrement(widget.question.index);
+          break;
+        // type9
+        case 190:
+          ref.read(En9Provider.notifier).increment(widget.question.index);
+          break;
+        case 191:
+          ref.read(En9Provider.notifier).decrement(widget.question.index);
           break;
       }
     }
