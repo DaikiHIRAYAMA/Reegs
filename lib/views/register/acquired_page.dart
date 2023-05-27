@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/views/login/login_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
@@ -19,12 +20,58 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   Question? _selectetedQuestionValue;
   int? _selectedAnswerIndex;
 
-  _selectedQuestion(Question? value) {
+  _selectedQuestion(Question? value) async {
     setState(() {
       _selectetedQuestionValue = value;
     });
-    if (widget.question == Question.q64) {
+
+    if (widget.question == Question.q138) {
       //最後の質問の場合、別の画面に遷移する
+      final eiState = ref.read(EIProvider.notifier).state;
+      final nsState = ref.read(NSProvider.notifier).state;
+      final ftState = ref.read(FTProvider.notifier).state;
+      final jpState = ref.read(JPProvider.notifier).state;
+
+      // 各状態から合計値を計算します。
+      final eiTotal = eiState.reduce((a, b) => a + b);
+      final nsTotal = nsState.reduce((a, b) => a + b);
+      final ftTotal = ftState.reduce((a, b) => a + b);
+      final jpTotal = jpState.reduce((a, b) => a + b);
+
+      // 合計値をもとにYESかNOのどちらが多いかを判断します。なんて名前にするのか判断する
+      final eiResult = eiTotal >= 0 ? 'YES' : 'NO';
+      final nsResult = nsTotal >= 0 ? 'YES' : 'NO';
+      final ftResult = ftTotal >= 0 ? 'YES' : 'NO';
+      final jpResult = jpTotal >= 0 ? 'YES' : 'NO';
+
+      // Create a client object
+      final client = Supabase.instance.client;
+      try {
+        final response = await client
+            .from('your-table-name') // replace with your table name
+            .insert({
+          'ei_result': eiResult,
+          'ns_result': nsResult,
+          'ft_result': ftResult,
+          'jp_result': jpResult,
+          // add more columns as needed
+        }).execute();
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyProfilePage(),
+          ),
+        );
+      } catch (error) {
+        print('An error occurred while saving the data: $error');
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyProfilePage(), // replace with your next page
+        ),
+      );
     } else {
       //次の質問に遷移
       Navigator.push(
