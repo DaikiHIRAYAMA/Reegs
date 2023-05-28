@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/app.dart';
-import 'package:reegs/constants/constants.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -23,16 +22,19 @@ class _AccountPageState extends State<AccountPage> {
     });
 
     try {
-      final userId = supabase.auth.currentUser!.id;
-      final data = await supabase
-          .from('characters')
-          .select()
-          .eq('id', userId)
-          .single() as Map;
-      _characterNameController.text = (data['username'] ?? '') as String;
-      _avatarUrl = (data['avatar_url'] ?? '') as String;
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      final userId = firebase.FirebaseAuth.instance.currentUser!.uid;
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('characters')
+          .doc(userId)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>;
+        _characterNameController.text = (data['username'] ?? '') as String;
+        _avatarUrl = (data['avatar_url'] ?? '') as String;
+      } else {
+        // Handle case where no document is found.
+      }
     } catch (error) {
       context.showErrorSnackBar(message: 'Unexpected exception occurred');
     }
@@ -47,21 +49,21 @@ class _AccountPageState extends State<AccountPage> {
       _loading = true;
     });
     final characterName = _characterNameController.text;
-    // final website = _websiteController.text;
-    final user = supabase.auth.currentUser;
+    final user = firebase.FirebaseAuth.instance.currentUser;
     final updates = {
-      'id': user!.id,
+      'id': user!.uid,
       'name': characterName,
-      // 'website': website,
       'updated_at': DateTime.now().toIso8601String(),
     };
     try {
-      await supabase.from('characters').upsert(updates);
+      await FirebaseFirestore.instance
+          .collection('characters')
+          .doc(user.uid)
+          .set(updates, SetOptions(merge: true));
+
       if (mounted) {
-        context.showSnackBar(message: 'Successfully updated profile!'); //TODO
+        context.showSnackBar(message: 'Successfully updated profile!');
       }
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
     } catch (error) {
       context.showErrorSnackBar(message: 'Unexpeted error occurred');
     }

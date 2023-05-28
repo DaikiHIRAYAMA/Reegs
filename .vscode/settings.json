@@ -5,10 +5,12 @@
     "ARGB",
     "Cupertino",
     "dotenv",
+    "firestore",
+    "MBTI",
+    "reegs",
     "riverpod",
     "Schyler",
     "Supabase",
-    "viewmodel",
-    "reegs"
+    "viewmodel"
   ]
 }

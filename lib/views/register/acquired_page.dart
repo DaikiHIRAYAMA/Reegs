@@ -1,10 +1,9 @@
 // MBTIによる分類
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:reegs/views/profiles/profile_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:reegs/views/login/login_page.dart';
+import 'package:reegs/views/register/send_confirmation_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
 // import 'package:riverpod/riverpod.dart';
 
@@ -44,34 +43,33 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       final ftResult = ftTotal >= 0 ? 'YES' : 'NO';
       final jpResult = jpTotal >= 0 ? 'YES' : 'NO';
 
-      // Create a client object
-      final client = Supabase.instance.client;
+      // Create a Firestore instance
+      final firestore = FirebaseFirestore.instance;
+
       try {
-        final response = await client
-            .from('your-table-name') // replace with your table name
-            .insert({
+        // Add a new document to your collection
+        await firestore.collection('your-collection-name').add({
           'ei_result': eiResult,
           'ns_result': nsResult,
           'ft_result': ftResult,
           'jp_result': jpResult,
-          // add more columns as needed
-        }).execute();
+          // add more fields as needed
+        });
 
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MyProfilePage(),
+            builder: (context) =>
+                SendConfirmationPage(eiResult, nsResult, ftResult, jpResult),
           ),
         );
+        print(eiResult);
+        print(nsResult);
+        print(ftResult);
+        print(jpResult);
       } catch (error) {
         print('An error occurred while saving the data: $error');
       }
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyProfilePage(), // replace with your next page
-        ),
-      );
     } else {
       //次の質問に遷移
       Navigator.push(

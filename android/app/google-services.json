@@ -1,43 +1,26 @@
 {
   "project_info": {
-    "project_number": "231510617643",
-    "project_id": "reegs-81fd4",
-    "storage_bucket": "reegs-81fd4.appspot.com"
+    "project_number": "70825632359",
+    "project_id": "egoproject-cce67",
+    "storage_bucket": "egoproject-cce67.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:231510617643:android:08c45dda7aef935fa0c46e",
+        "mobilesdk_app_id": "1:70825632359:android:4ce3a35fafd292afd5eac2",
         "android_client_info": {
           "package_name": "com.example.reegs"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "231510617643-j4ql3433ln8408hlpnf5c2tars9j8vdb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD0vY4HARfTKHUDhtppC2NZtRDcrf5lxcA"
+          "current_key": "AIzaSyALeWum41WyRfuxmgs8z3m7kVzRW-kMGVk"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "231510617643-7u1kg0kdq4vs9c2n1908tp5fsqs9hm12.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "231510617643-9hc7n0m7uvdm22f95l2gl1maahrdad6h.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.reegs"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

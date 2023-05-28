@@ -12,12 +12,9 @@ import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/account_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
 import 'package:reegs/views/register/innate_page.dart';
-import 'package:reegs/views/register/position_page.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:reegs/views/register/siblings_page.dart';
 
 import 'view_models/register/acquired_viewmodel.dart';
-
-final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Supabase Flutter',
+        title: 'Flutter',
         theme: appTheme,
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく
@@ -35,7 +32,7 @@ class MyApp extends StatelessWidget {
           '/myprofile': (_) => MyProfilePage(),
           '/innate': (_) => InnatePage(),
           '/acquired': (_) => AcquiredPage(question: Question.q1),
-          '/position': (_) => PositionPage(),
+          '/position': (_) => SiblingsPage(),
           '/qrscan': (_) => QrScanView(),
         });
   }

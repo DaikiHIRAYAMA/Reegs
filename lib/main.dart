@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
@@ -5,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/app.dart';
 import 'package:reegs/view_models/login/store.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 //ログインしているのか判定
 final storeProvider = ChangeNotifierProvider<Store>((ref) => Store());
@@ -20,11 +24,12 @@ Future<void> main() async {
     print('LINE SDK prepared');
   });
 
-  //supabaseの初期化
-  await Supabase.initialize(
-    url: dotenv.get('VAR_URL'), // .envのURLを取得
-    anonKey: dotenv.get('VAR_ANONKEY'), // .envのanonを取得
-  );
+  //firebase初期化
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ).then((_) {
+    print('Firebase prepared');
+  });
 
   runApp(const ProviderScope(child: MyApp()));
 }

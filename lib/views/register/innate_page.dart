@@ -1,12 +1,12 @@
 //生年月日による分類
-import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:reegs/app.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/models/profiles/calcurate_color.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InnatePage extends StatefulWidget {
   @override
@@ -23,22 +23,24 @@ class _InnatePageState extends State<InnatePage> {
     });
   }
 
-// これの関数を他のページで使用する際は、Riverpod等を用いる必要がある
   Future<void> _getCharacter() async {
     setState(() {
       _loading = true;
     });
 
     try {
-      final userId = supabase.auth.currentUser!.id;
-      final data = await supabase
-          .from('characters')
-          .select()
-          .eq('id', userId)
-          .single() as Map;
-      _birthdayController.text = (data['username'] ?? '') as String;
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      final userId = firebase.FirebaseAuth.instance.currentUser!.uid;
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('characters')
+          .doc(userId)
+          .get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>;
+        _birthdayController.text = (data['birthday'] ?? '') as String;
+      } else {
+        // Handle case where no document is found.
+      }
     } catch (error) {
       context.showErrorSnackBar(message: 'Unexpected exception occurred');
     }
@@ -52,9 +54,9 @@ class _InnatePageState extends State<InnatePage> {
       _loading = true;
     });
     final birthday = _birthdayController.text;
-    final user = supabase.auth.currentUser;
+    final user = firebase.FirebaseAuth.instance.currentUser;
     final updates = {
-      'id': user!.id,
+      'id': user!.uid,
       'birthday': birthday,
       'updated_at': DateTime.now().toIso8601String(),
     };
@@ -62,12 +64,16 @@ class _InnatePageState extends State<InnatePage> {
       setState(() {
         mainColor = calculateColor(birthday);
       });
-      await supabase.from('characters').upsert(updates);
+      await FirebaseFirestore.instance
+          .collection('characters')
+          .doc(user.uid)
+          .set(updates, SetOptions(merge: true));
+
       if (mounted) {
-        context.showSnackBar(message: '生年月日を登録しました'); //TODO
+        context.showSnackBar(message: '生年月日を登録しました');
       }
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+    } catch (error) {
+      context.showErrorSnackBar(message: 'Unexpected error occurred');
     }
     setState(() {
       _loading = false;

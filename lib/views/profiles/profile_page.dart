@@ -13,7 +13,7 @@ class MyProfilePage extends ConsumerWidget {
     final distance = viewModel.distance;
 
     return Text(
-      'Distance: $distance meters',
+      'Distance: ${distance ?? 'Unavailable'} meters',
     );
   }
 }

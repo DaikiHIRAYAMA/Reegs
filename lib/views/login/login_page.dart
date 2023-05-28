@@ -1,12 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:reegs/app.dart';
-// import 'package:reegs/constants/constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:reegs/constants/snackbar.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,64 +14,82 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isGoogleLoading = false;
   bool _isLineLoading = false;
   bool _redirecting = false;
-  late final StreamSubscription<AuthState> _authStateSubscription;
+  late StreamSubscription<firebase.User?> _authStateSubscription;
 
-  Future<void> _signInGoogle() async {
-    setState(() {
-      _isGoogleLoading = true;
-    });
-    try {
-      await supabase.auth.signInWithOAuth(Provider.google);
-      if (mounted) {
-        context.showSnackBar(message: 'Login!');
-      }
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
-    }
-    setState(() {
-      _isGoogleLoading = false;
-    });
-  }
+  Future<void> lineSignIn() async {
+    // LINE SDKを初期化
+    await LineSDK.instance.setup(dotenv.get('CHANNEL_ID'));
 
-  Future<void> _lineLogin() async {
-    await LineSDK.instance.setup("LINE_CHANNEL_ID");
-    setState(() {
-      _isLineLoading = true;
-    });
     try {
+      // ローディング状態をtrueにセット
+      setState(() {
+        _isLineLoading = true;
+      });
+
+      // LINEでユーザーにログインさせる
       final result =
           await LineSDK.instance.login(scopes: ["profile", "openid"]);
-      // user id -> result.userProfile?.userId
-      // user name -> result.userProfile?.displayName
+
+      // LINE Access Tokenを取得
+      final accessToken = result.accessToken.value;
+
+      // FirebaseにLINE Access Tokenを使用してサインイン
+      final credential =
+          firebase.OAuthProvider('line').credential(accessToken: accessToken);
+      await firebase.FirebaseAuth.instance.signInWithCredential(credential);
+
+      // ローディング状態をfalseにセット
+      setState(() {
+        _isLineLoading = false;
+      });
 
       // ログイン成功時の処理
-    } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
-    }
+      // 例えば、Firebaseから取得したユーザー情報を表示するなど
+    } on firebase.FirebaseAuthException catch (error) {
+      // ローディング状態をfalseにセット
+      setState(() {
+        _isLineLoading = false;
+      });
 
-    setState(() {
-      _isLineLoading = false;
-    });
+      // Firebaseの認証エラー処理
+      print('Firebase Auth Error: ${error.message}');
+    } on AuthException catch (error) {
+      // ローディング状態をfalseにセット
+      setState(() {
+        _isLineLoading = false;
+      });
+
+      // LINEの認証エラー処理
+      print('LINE Auth Error: ${error.message}');
+    } catch (error) {
+      // ローディング状態をfalseにセット
+      setState(() {
+        _isLineLoading = false;
+      });
+
+      // 予期しないエラー処理
+      print('Unexpected error occurred: $error');
+    }
   }
 
   @override
   void initState() {
-    _authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
+    super.initState();
+    _authStateSubscription = firebase.FirebaseAuth.instance
+        .authStateChanges()
+        .listen((firebase.User? user) {
       if (_redirecting) return;
-      final session = data.session;
-      if (session != null) {
+
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
         _redirecting = true;
         Navigator.of(context).pushReplacementNamed('/account');
+        print('User is signed in!');
       }
     });
-    super.initState();
   }
 
   @override
@@ -90,18 +106,10 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
           ElevatedButton(
-            onPressed: _isGoogleLoading
-                ? null
-                : () async {
-                    await _signInGoogle();
-                  },
-            child: Text(_isGoogleLoading ? 'Loading' : 'Google Login'),
-          ),
-          ElevatedButton(
             onPressed: _isLineLoading
                 ? null
                 : () async {
-                    await _lineLogin();
+                    await lineSignIn();
                   },
             child: Text(_isLineLoading ? 'Loading' : 'LINE Login'),
           ),

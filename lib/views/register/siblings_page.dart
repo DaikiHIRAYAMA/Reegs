@@ -1,38 +1,44 @@
 //兄弟構成
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reegs/app.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:reegs/constants/snackbar.dart';
 
-class PositionPage extends StatefulWidget {
+class SiblingsPage extends StatefulWidget {
   @override
-  _PositionPageState createState() => _PositionPageState();
+  _SiblingsPageState createState() => _SiblingsPageState();
 }
 
-enum PositionValue { Eldest, Middle, Youngest, Only }
+enum SiblingsValue { Eldest, Middle, Youngest, Only }
 
-extension PositionValueExtension on PositionValue {
+extension SiblingsValueExtension on SiblingsValue {
   int toInt() {
     switch (this) {
-      case PositionValue.Eldest:
+      case SiblingsValue.Eldest:
         return 0;
-      case PositionValue.Middle:
+      case SiblingsValue.Middle:
         return 1;
-      case PositionValue.Youngest:
+      case SiblingsValue.Youngest:
         return 2;
-      case PositionValue.Only:
+      case SiblingsValue.Only:
         return 3;
       default:
-        throw Exception('Unknown position value');
+        throw Exception('Unknown Siblings value');
     }
   }
 }
 
-class _PositionPageState extends State<PositionPage> {
-  PositionValue _positionValue = PositionValue.Eldest;
+class _SiblingsPageState extends State<SiblingsPage> {
+  SiblingsValue _siblingsValue = SiblingsValue.Eldest;
+
   var _loading = false;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +61,8 @@ class _PositionPageState extends State<PositionPage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  _onRadioSelected(PositionValue.Only);
-                  _registerPosition();
+                  _onRadioSelected(SiblingsValue.Only);
+                  _registerSiblings();
                   Navigator.pushNamed(context, '/acquired');
                   // 任意の遷移処理をここに追加してください
                 },
@@ -76,8 +82,8 @@ class _PositionPageState extends State<PositionPage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  _onRadioSelected(PositionValue.Eldest);
-                  _registerPosition();
+                  _onRadioSelected(SiblingsValue.Eldest);
+                  _registerSiblings();
                   Navigator.pushNamed(context, '/acquired');
                   // 任意の遷移処理をここに追加してください
                 },
@@ -97,8 +103,8 @@ class _PositionPageState extends State<PositionPage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  _onRadioSelected(PositionValue.Middle);
-                  _registerPosition();
+                  _onRadioSelected(SiblingsValue.Middle);
+                  _registerSiblings();
                   Navigator.pushNamed(context, '/acquired');
                   // 任意の遷移処理をここに追加してください
                 },
@@ -118,8 +124,8 @@ class _PositionPageState extends State<PositionPage> {
             child: Column(children: [
               InkWell(
                 onTap: () {
-                  _onRadioSelected(PositionValue.Youngest);
-                  _registerPosition();
+                  _onRadioSelected(SiblingsValue.Youngest);
+                  _registerSiblings();
                   Navigator.pushNamed(context, '/acquired');
                   // 任意の遷移処理をここに追加してください
                 },
@@ -142,30 +148,39 @@ class _PositionPageState extends State<PositionPage> {
 
   void _onRadioSelected(value) {
     setState(() {
-      _positionValue = value;
+      _siblingsValue = value;
     });
   }
 
-  Future<void> _registerPosition() async {
+  Future<void> _registerSiblings() async {
     setState(() {
       _loading = true;
     });
-    final user = supabase.auth.currentUser;
+
+    final user = _auth.currentUser;
     final updates = {
-      'id': user!.id,
-      'position': _positionValue.toInt(),
+      'id': user!.uid,
+      'siblings': _siblingsValue.toInt(),
       'updated_at': DateTime.now().toIso8601String(),
     };
+
     try {
-      await supabase.from('characters').upsert(updates);
+      await _firestore
+          .collection('characters')
+          .doc(user.uid)
+          .set(updates, SetOptions(merge: true));
+
       if (mounted) {
-        context.showSnackBar(message: '兄弟構成を登録しました');
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('兄弟構成を登録しました')));
       }
-    } on PostgrestException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+    } catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error: $error')));
     }
+
     setState(() {
-      _loading = true;
+      _loading = false;
     });
   }
 }
