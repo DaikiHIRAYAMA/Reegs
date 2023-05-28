@@ -172,7 +172,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('兄弟構成を登録しました')));
+            .showSnackBar(const SnackBar(content: Text('兄弟構成を登録しました')));
       }
     } catch (error) {
       ScaffoldMessenger.of(context)

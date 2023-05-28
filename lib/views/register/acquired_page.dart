@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reegs/constants/progressbar.dart';
 import 'package:reegs/views/register/send_confirmation_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
 // import 'package:riverpod/riverpod.dart';
@@ -24,7 +25,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       _selectetedQuestionValue = value;
     });
 
-    if (widget.question == Question.q138) {
+    if (widget.question == Question.q140) {
       //最後の質問の場合、別の画面に遷移する
       final eiState = ref.read(EIProvider.notifier).state;
       final nsState = ref.read(NSProvider.notifier).state;
@@ -92,6 +93,14 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       print(value);
       //回答に基づいて配列を選択して加算
       switch (value) {
+        //iwayuru 質問
+        case 0:
+          ref.read(iwayuruProvider.notifier).increment(widget.question.index);
+          break;
+        case 1:
+          ref.read(iwayuruProvider.notifier).increment(widget.question.index);
+          break;
+
         //EI判断
         case 10:
           ref.read(EIProvider.notifier).increment(widget.question.index);
@@ -215,7 +224,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${widget.question.index + 1}'),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('Question ${widget.question.index + 1}'),
+            SizedBox(
+              height: 14,
+              child: LinearProgressBar(
+                progress: ((widget.question.index + 1) / 140),
+              ),
+            ),
+          ],
+        ),
       ),
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: SafeArea(
