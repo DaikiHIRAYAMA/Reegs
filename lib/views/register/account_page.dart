@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:reegs/constants/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,7 +37,7 @@ class _AccountPageState extends State<AccountPage> {
         // Handle case where no document is found.
       }
     } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected exception occurred');
+      showErrorSnackBar(); // <-- Update here
     }
 
     setState(() {
@@ -50,32 +51,53 @@ class _AccountPageState extends State<AccountPage> {
     });
     final characterName = _characterNameController.text;
     final user = firebase.FirebaseAuth.instance.currentUser;
-    final updates = {
-      'id': user!.uid,
-      'name': characterName,
-      'updated_at': DateTime.now().toIso8601String(),
-    };
-    try {
-      await FirebaseFirestore.instance
-          .collection('characters')
-          .doc(user.uid)
-          .set(updates, SetOptions(merge: true));
+    if (user != null) {
+      final updates = {
+        'id': user.uid,
+        'name': characterName,
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+      try {
+        await FirebaseFirestore.instance
+            .collection('characters')
+            .doc(user.uid)
+            .set(updates, SetOptions(merge: true));
 
-      if (mounted) {
-        context.showSnackBar(message: 'Successfully updated profile!');
+        showSuccessSnackBar(); // <-- Update here
+      } catch (error) {
+        showErrorSnackBar(); // <-- Update here
       }
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpeted error occurred');
+      ;
+    } else {
+      Navigator.pushNamed(context, '/login');
     }
     setState(() {
       _loading = false;
     });
   }
 
+  void showSuccessSnackBar() {
+    if (mounted) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Successfully updated profile!')),
+        );
+      });
+    }
+  }
+
+  void showErrorSnackBar() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unexpected error occurred')),
+      );
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _getCharacter();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getCharacter());
   }
 
   @override
@@ -89,6 +111,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('NAME?'),
+        automaticallyImplyLeading: false, // 戻るを非表示
       ),
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: ListView(
@@ -131,16 +154,3 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 }
-
-// List<TextSpan> _buildUnderlinedText(String text) {
-//   return text.split('').map((char) {
-//     return TextSpan(
-//       text: char + ' ',
-//       style: const TextStyle(
-//         decoration: TextDecoration.underline
-//         decorationStyle: TextDecorationStyle.solid,
-//         decorationColor: Colors.black,
-//       ),
-//     );
-//   }).toList();
-// }

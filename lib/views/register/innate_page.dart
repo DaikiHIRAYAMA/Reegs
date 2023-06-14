@@ -1,4 +1,5 @@
 //生年月日による分類
+import 'package:flutter/scheduler.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/models/profiles/calcurate_color.dart';
 import 'package:reegs/constants/snackbar.dart';
@@ -42,7 +43,9 @@ class _InnatePageState extends State<InnatePage> {
         // Handle case where no document is found.
       }
     } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected exception occurred');
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        context.showErrorSnackBar(message: 'Unexpected exception occurred');
+      });
     }
     setState(() {
       _loading = false;
@@ -55,8 +58,13 @@ class _InnatePageState extends State<InnatePage> {
     });
     final birthday = _birthdayController.text;
     final user = firebase.FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // Here handle the situation when user is null.
+      // You may want to return from the function or show some error message
+      return;
+    }
     final updates = {
-      'id': user!.uid,
+      'id': user.uid,
       'birthday': birthday,
       'updated_at': DateTime.now().toIso8601String(),
     };
@@ -70,10 +78,14 @@ class _InnatePageState extends State<InnatePage> {
           .set(updates, SetOptions(merge: true));
 
       if (mounted) {
-        context.showSnackBar(message: '生年月日を登録しました');
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          context.showSnackBar(message: '生年月日を登録しました');
+        });
       }
     } catch (error) {
-      context.showErrorSnackBar(message: 'Unexpected error occurred');
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        context.showErrorSnackBar(message: 'Unexpected error occurred');
+      });
     }
     setState(() {
       _loading = false;
@@ -147,7 +159,7 @@ class _InnatePageState extends State<InnatePage> {
               ),
               onPressed: () {
                 _registerBirthday();
-                Navigator.pushNamed(context, '/position');
+                Navigator.pushNamed(context, '/siblings');
               },
             ),
           ),

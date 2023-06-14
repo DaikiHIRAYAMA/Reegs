@@ -63,7 +63,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 onTap: () {
                   _onRadioSelected(SiblingsValue.Only);
                   _registerSiblings();
-                  Navigator.pushNamed(context, '/acquired');
+                  Navigator.pushNamed(context, '/testConfirm');
                   // 任意の遷移処理をここに追加してください
                 },
                 child: Row(
@@ -84,7 +84,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 onTap: () {
                   _onRadioSelected(SiblingsValue.Eldest);
                   _registerSiblings();
-                  Navigator.pushNamed(context, '/acquired');
+                  Navigator.pushNamed(context, '/testConfirm');
                   // 任意の遷移処理をここに追加してください
                 },
                 child: Row(
@@ -105,7 +105,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 onTap: () {
                   _onRadioSelected(SiblingsValue.Middle);
                   _registerSiblings();
-                  Navigator.pushNamed(context, '/acquired');
+                  Navigator.pushNamed(context, '/testConfirm');
                   // 任意の遷移処理をここに追加してください
                 },
                 child: Row(
@@ -126,7 +126,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 onTap: () {
                   _onRadioSelected(SiblingsValue.Youngest);
                   _registerSiblings();
-                  Navigator.pushNamed(context, '/acquired');
+                  Navigator.pushNamed(context, '/testConfirm');
                   // 任意の遷移処理をここに追加してください
                 },
                 child: Row(
@@ -158,29 +158,28 @@ class _SiblingsPageState extends State<SiblingsPage> {
     });
 
     final user = _auth.currentUser;
-    final updates = {
-      'id': user!.uid,
-      'siblings': _siblingsValue.toInt(),
-      'updated_at': DateTime.now().toIso8601String(),
-    };
-
-    try {
-      await _firestore
-          .collection('characters')
-          .doc(user.uid)
-          .set(updates, SetOptions(merge: true));
-
-      if (mounted) {
+    if (user != null) {
+      final updates = {
+        'id': user.uid,
+        'siblings': _siblingsValue.toInt(),
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+      try {
+        await _firestore
+            .collection('characters')
+            .doc(user.uid)
+            .set(updates, SetOptions(merge: true));
+        if (mounted) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('兄弟構成を登録しました')));
+        }
+      } catch (error) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('兄弟構成を登録しました')));
+            .showSnackBar(SnackBar(content: Text('Error: $error')));
       }
-    } catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $error')));
+      setState(() {
+        _loading = false;
+      });
     }
-
-    setState(() {
-      _loading = false;
-    });
   }
 }

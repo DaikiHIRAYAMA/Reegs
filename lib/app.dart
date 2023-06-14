@@ -13,6 +13,8 @@ import 'package:reegs/views/register/account_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
 import 'package:reegs/views/register/innate_page.dart';
 import 'package:reegs/views/register/siblings_page.dart';
+import 'package:reegs/views/register/start_confirmation_page.dart';
+import 'package:reegs/views/register/test_confirmation_page.dart';
 
 import 'view_models/register/acquired_viewmodel.dart';
 
@@ -32,8 +34,10 @@ class MyApp extends StatelessWidget {
           '/myprofile': (_) => MyProfilePage(),
           '/innate': (_) => InnatePage(),
           '/acquired': (_) => AcquiredPage(question: Question.q1),
-          '/position': (_) => SiblingsPage(),
+          '/siblings': (_) => SiblingsPage(),
           '/qrscan': (_) => QrScanView(),
+          '/startConfirm': (_) => StartConfirmationPage(),
+          '/testConfirm': (_) => TestConfirmationPage()
         });
   }
 }

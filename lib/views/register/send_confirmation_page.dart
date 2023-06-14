@@ -67,8 +67,9 @@ class _SendConfirmationPageState extends State<SendConfirmationPage> {
     return Scaffold(
       body: Center(
         child: _isLoading
-            ? CircularProgressIndicator() // Show a loading spinner
-            : Text('Error occurred, please try again'), // Show error message
+            ? const CircularProgressIndicator() // Show a loading spinner
+            : const Text(
+                'Error occurred, please try again'), // Show error message
       ),
     );
   }

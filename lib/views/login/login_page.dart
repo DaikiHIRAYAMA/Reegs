@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/account');
+              Navigator.pushNamed(context, '/startConfirm');
             },
             child: const Text('Test時のみここからクリック'),
           ),

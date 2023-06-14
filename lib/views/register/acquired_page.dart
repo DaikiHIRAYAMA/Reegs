@@ -243,7 +243,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
           children: [
             Text(
               questionTexts[widget.question]!,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 200, height: 50),
             Row(

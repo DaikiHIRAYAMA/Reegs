@@ -11,9 +11,24 @@ class MyProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(positionViewModelProvider);
     final distance = viewModel.distance;
-
-    return Text(
-      'Distance: $distance meters',
+    return MaterialApp(
+      title: 'My Page',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Hello World'),
+        ),
+        body: const Center(
+          child: Text(
+            'distance',
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+      ),
     );
   }
 }
+
+class $distance {}
