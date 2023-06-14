@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/views/register/account_page.dart';
-import 'package:reegs/views/register/acquired_page.dart';
 
 class TestConfirmationPage extends StatelessWidget {
   @override

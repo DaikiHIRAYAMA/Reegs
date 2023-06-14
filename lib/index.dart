@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:reegs/constants/splashscreen.dart';
-import 'package:reegs/views/friends/friends_list_page.dart';
-import 'package:reegs/views/login/login_page.dart';
-import 'package:reegs/views/friends/near_friends_list_page.dart';
 import 'package:reegs/views/profiles/profile_edit_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';

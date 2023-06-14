@@ -1,13 +1,11 @@
-//生年月日による分類
 import 'package:flutter/scheduler.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/models/profiles/calcurate_color.dart';
 import 'package:reegs/constants/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class InnatePage extends StatefulWidget {
   @override
@@ -124,28 +122,28 @@ class _InnatePageState extends State<InnatePage> {
                         ? Colors.grey
                         : Colors.black),
               ),
-              onPressed: () {
-                DatePicker.showDatePicker(context,
-                    showTitleActions: true,
-                    minTime: DateTime(1950, 1, 1),
-                    maxTime: DateTime.now(),
-                    theme: const DatePickerTheme(
-                        headerColor: Colors.green,
-                        backgroundColor: Colors.black,
-                        itemStyle: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                        doneStyle:
-                            TextStyle(color: Colors.white, fontSize: 16)),
-                    onChanged: (date) {
-                  print('変更 $date');
-                }, onConfirm: (date) {
-                  print('確認 $date');
-                  _onDateSelected(date);
-                },
-                    currentTime: DateTime.now(),
-                    locale: LocaleType.jp); //スタート位置変更できる
+              onPressed: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1950, 1),
+                  lastDate: DateTime.now(),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        primaryColor: const Color(0xFF8CE5C1),
+                        hintColor: const Color(0xFF8CE5C1),
+                        colorScheme:
+                            ColorScheme.light(primary: const Color(0xFF8CE5C1)),
+                        buttonTheme:
+                            ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                      ),
+                      child: child!,
+                    );
+                  },
+                );
+                if (picked != null && picked != DateTime.now())
+                  _onDateSelected(picked);
               },
             ),
           ),
