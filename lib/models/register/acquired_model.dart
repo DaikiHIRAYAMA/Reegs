@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AcquiredController extends StateNotifier<List<int>> {
-  AcquiredController()
-      : super(List.filled(20, 0)); // Creates a list with 20 zeros.
+  AcquiredController() : super(List.filled(140, 0));
 
   void increment(int index) {
     state = [

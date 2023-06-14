@@ -9,7 +9,7 @@ import 'package:reegs/views/profiles/profile_edit_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
 import 'package:reegs/views/register/innate_page.dart';
-import 'package:reegs/views/register/position_page.dart';
+import 'package:reegs/views/register/siblings_page.dart';
 
 import 'view_models/register/acquired_viewmodel.dart';
 
@@ -20,7 +20,7 @@ class LiquidSwipeViews extends StatelessWidget {
   static List<Widget> pages = <Widget>[
     //スワイプ先
     Container(
-      child: PositionPage(), //ここでページ指定
+      child: SiblingsPage(), //ここでページ指定
     ),
     Container(
       child: InnatePage(),

@@ -9,9 +9,12 @@ final positionViewModelProvider =
     ChangeNotifierProvider((ref) => PositionViewModel());
 
 class PositionViewModel with ChangeNotifier {
-  late double _distance;
+  double? _distance = 0;
 
-  double get distance => _distance;
+  double get distance {
+    assert(_distance != null, 'Distance was null when accessed.');
+    return _distance!;
+  }
 
   set distance(double value) {
     _distance = value;
