@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:reegs/app.dart';
-import 'package:reegs/constants/constants.dart';
 import 'package:reegs/models/profiles/user_state.dart';
 import 'package:reegs/view_models/login/store.dart';
 import 'package:reegs/views/login/login_page.dart';

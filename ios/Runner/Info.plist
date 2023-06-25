@@ -29,8 +29,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-				<string>io.supabase.flutterquickstart</string>
+				<string>com.googleusercontent.apps.70825632359-v3pejqdnk8okgpkbhrl4gb65iupobq9g</string>
 			</array>
 		</dict>
 	</array>
