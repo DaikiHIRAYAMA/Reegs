@@ -4,6 +4,7 @@
 // アプリ全体のテーマの設定
 
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/constants/splashscreen.dart';
 import 'package:reegs/views/friends/qr_scan_page.dart';
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく
           '/': (_) => SplashPage(),
-          '/login': (_) => const LoginPage(),
+          '/login': (_) => const LoginPage(
+                providerConfigs: [EmailProviderConfiguration()],
+              ),
           '/account': (_) => const AccountPage(),
           '/myprofile': (_) => MyProfilePage(),
           '/innate': (_) => InnatePage(),

@@ -19,11 +19,6 @@ Future<void> main() async {
   // .envを読み込めるように設定
   await dotenv.load(fileName: '.env');
 
-  //Line SDKの設定
-  await LineSDK.instance.setup(dotenv.get('CHANNEL_ID')).then((_) {
-    print('LINE SDK prepared');
-  });
-
   //firebase初期化
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
