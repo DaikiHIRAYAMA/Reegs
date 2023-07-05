@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/app.dart';
-import 'package:reegs/constants/constants.dart';
-import 'package:reegs/models/profiles/calcurate_color.dart';
-
-// Supabase client
-// final supabase = Supabase.instance.client;
 
 //preloader
 const preloader = Center(child: CircularProgressIndicator());

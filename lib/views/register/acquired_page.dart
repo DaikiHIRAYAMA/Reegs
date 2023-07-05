@@ -1,4 +1,5 @@
 // MBTIによる分類
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/constants/progressbar.dart';
 import 'package:reegs/views/register/send_confirmation_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:riverpod/riverpod.dart';
 
 class AcquiredPage extends ConsumerStatefulWidget {
@@ -20,6 +22,45 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   Question? _selectetedQuestionValue;
   int? _selectedAnswerIndex;
 
+  Future<void> completeDiagnosis(String diagnosisKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(diagnosisKey, true);
+  }
+
+  Future<void> saveResultsAndCompleteDiagnosis(
+    String diagnosisKey,
+    String eiResult,
+    String nsResult,
+    String ftResult,
+    String jpResult,
+    String mbtiResult,
+    int hspResult,
+    int psyResult,
+    int socResult,
+    int en1Result,
+    int en2Result,
+    int en3Result,
+    int en4Result,
+    int en5Result,
+    int en6Result,
+    int en7Result,
+    int en8Result,
+    int en9Result,
+    int enResult,
+  ) async {
+    final firestore = FirebaseFirestore.instance;
+
+    await firestore.collection('diagnosis-results').add({
+      'mbti_result': mbtiResult,
+      'hsp_result': hspResult,
+      'psy_result': psyResult,
+      'soc_result': socResult,
+      'en_result': enResult,
+      // add more fields as needed
+    });
+    await completeDiagnosis('test_complete');
+  }
+
   _selectedQuestion(Question? value) async {
     setState(() {
       _selectetedQuestionValue = value;
@@ -27,6 +68,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
 
     if (widget.question == Question.q140) {
       //最後の質問の場合、別の画面に遷移する
+      //MBTIの結果取得
       final eiState = ref.read(EIProvider.notifier).state;
       final nsState = ref.read(NSProvider.notifier).state;
       final ftState = ref.read(FTProvider.notifier).state;
@@ -39,24 +81,97 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       final jpTotal = jpState.reduce((a, b) => a + b);
 
       // 合計値をもとにYESかNOのどちらが多いかを判断します。なんて名前にするのか判断する
-      final eiResult = eiTotal >= 0 ? 'YES' : 'NO';
-      final nsResult = nsTotal >= 0 ? 'YES' : 'NO';
-      final ftResult = ftTotal >= 0 ? 'YES' : 'NO';
-      final jpResult = jpTotal >= 0 ? 'YES' : 'NO';
+      final eiResult = eiTotal >= 0 ? 'E' : 'I';
+      final nsResult = nsTotal >= 0 ? 'S' : 'N';
+      final ftResult = ftTotal >= 0 ? 'F' : 'I';
+      final jpResult = jpTotal >= 0 ? 'J' : 'P';
+      final mbtiResult = eiResult + nsResult + ftResult + jpResult;
 
-      // Create a Firestore instance
-      final firestore = FirebaseFirestore.instance;
+      //hspの結果取得
+      final hspState = ref.read(HSPProvider.notifier).state;
+      final hspCount = hspState.where((answer) => answer == 1).length;
+      final hspResult = hspCount >= 14 ? 1 : 0;
 
-      try {
-        // Add a new document to your collection
-        await firestore.collection('your-collection-name').add({
-          'ei_result': eiResult,
-          'ns_result': nsResult,
-          'ft_result': ftResult,
-          'jp_result': jpResult,
-          // add more fields as needed
-        });
+      //psyの診断結果
+      final psyState = ref.read(PsyProvider.notifier).state;
+      final psyCount = psyState.where((answer) => answer == 1).length;
+      final psyResult = psyCount >= 5 ? 1 : 0;
 
+      //psyの診断結果
+      final socState = ref.read(SocProvider.notifier).state;
+      final socCount = socState.where((answer) => answer == 1).length;
+      final socResult = socCount >= 6 ? 1 : 0;
+
+      //エニアグラムの診断結果
+      final en1State = ref.read(En1Provider.notifier).state;
+      final en2State = ref.read(En2Provider.notifier).state;
+      final en3State = ref.read(En3Provider.notifier).state;
+      final en4State = ref.read(En4Provider.notifier).state;
+      final en5State = ref.read(En5Provider.notifier).state;
+      final en6State = ref.read(En6Provider.notifier).state;
+      final en7State = ref.read(En7Provider.notifier).state;
+      final en8State = ref.read(En8Provider.notifier).state;
+      final en9State = ref.read(En9Provider.notifier).state;
+
+      // 各項目のYESのカウント
+      final en1Result = en1State.where((answer) => answer == 1).length;
+      final en2Result = en2State.where((answer) => answer == 1).length;
+      final en3Result = en3State.where((answer) => answer == 1).length;
+      final en4Result = en4State.where((answer) => answer == 1).length;
+      final en5Result = en5State.where((answer) => answer == 1).length;
+      final en6Result = en6State.where((answer) => answer == 1).length;
+      final en7Result = en7State.where((answer) => answer == 1).length;
+      final en8Result = en8State.where((answer) => answer == 1).length;
+      final en9Result = en9State.where((answer) => answer == 1).length;
+
+      List<int> counts = [
+        en1Result,
+        en2Result,
+        en3Result,
+        en4Result,
+        en5Result,
+        en6Result,
+        en7Result,
+        en8Result,
+        en9Result,
+      ];
+
+      // 最大カウント数を取得
+      var maxCount = counts.reduce(max);
+
+      // 最大カウント数の項目をリストアップ（複数存在する場合も含む）
+      var maxCountIndices = counts
+          .asMap()
+          .entries
+          .where((entry) => entry.value == maxCount)
+          .map((entry) => entry.key)
+          .toList();
+
+      // ランダムに1つ選ぶ
+      var rnd = Random();
+      final enResult = maxCountIndices[rnd.nextInt(maxCountIndices.length)];
+
+      saveResultsAndCompleteDiagnosis(
+        'profile_complete',
+        eiResult,
+        nsResult,
+        ftResult,
+        jpResult,
+        mbtiResult,
+        hspResult,
+        psyResult,
+        socResult,
+        en1Result,
+        en2Result,
+        en3Result,
+        en4Result,
+        en5Result,
+        en6Result,
+        en7Result,
+        en8Result,
+        en9Result,
+        enResult,
+      ).then((_) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -64,13 +179,13 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
                 SendConfirmationPage(eiResult, nsResult, ftResult, jpResult),
           ),
         );
-        print(eiResult);
-        print(nsResult);
-        print(ftResult);
-        print(jpResult);
-      } catch (error) {
+      }).catchError((error) {
         print('An error occurred while saving the data: $error');
-      }
+      });
+      print(eiResult);
+      print(nsResult);
+      print(ftResult);
+      print(jpResult);
     } else {
       //次の質問に遷移
       Navigator.push(

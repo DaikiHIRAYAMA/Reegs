@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:reegs/views/register/account_page.dart';
 
-class StartConfirmationPage extends StatelessWidget {
+class ProfileConfirmationPage extends StatelessWidget {
+  const ProfileConfirmationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

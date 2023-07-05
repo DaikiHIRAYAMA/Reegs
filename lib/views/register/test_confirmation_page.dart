@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/views/register/account_page.dart';
-import 'package:reegs/views/register/acquired_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TestConfirmationPage extends StatelessWidget {
   @override
@@ -21,14 +20,20 @@ class TestConfirmationPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await completeDiagnosis('profile_complete');
                 Navigator.pushNamed(context, '/acquired');
               },
-              child: Text('はじめる'),
+              child: const Text('はじめる'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> completeDiagnosis(String diagnosisKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(diagnosisKey, true);
   }
 }

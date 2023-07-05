@@ -51,6 +51,7 @@ dependencies:
   firebase_auth: ^4.6.1
   flutterfire_ui: ^0.4.3+20
   google_sign_in: ^5.2.1
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:
