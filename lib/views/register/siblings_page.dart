@@ -46,11 +46,11 @@ class _SiblingsPageState extends State<SiblingsPage> {
         preferredSize: Size.fromHeight(screenHeight * 0.2),
         child: AppBar(
           title: const SizedBox(
-            child: Text('SIBLINGS?'),
+            child: Text('兄弟構成'),
           ),
+          backgroundColor: Colors.white,
         ),
       ),
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: Column(
         children: [
           Card(
@@ -65,7 +65,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('lib/assets/images/siblings/Only.png',
+                    Image.asset('lib/assets/images/siblings/SB1.png',
                         width: screenWidth * 0.8,
                         height: screenHeight * 0.15,
                         fit: BoxFit.contain),
@@ -86,7 +86,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('lib/assets/images/siblings/Eldest.png',
+                    Image.asset('lib/assets/images/siblings/SB2.png',
                         width: screenWidth * 0.8,
                         height: screenHeight * 0.15,
                         fit: BoxFit.contain),
@@ -107,7 +107,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('lib/assets/images/siblings/Middle.png',
+                    Image.asset('lib/assets/images/siblings/SB3.png',
                         width: screenWidth * 0.8,
                         height: screenHeight * 0.15,
                         fit: BoxFit.contain),
@@ -128,7 +128,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('lib/assets/images/siblings/Youngest.png',
+                    Image.asset('lib/assets/images/siblings/SB4.png',
                         width: screenWidth * 0.8,
                         height: screenHeight * 0.15,
                         fit: BoxFit.contain),
@@ -139,6 +139,7 @@ class _SiblingsPageState extends State<SiblingsPage> {
           ),
         ],
       ),
+      backgroundColor: Colors.white,
     );
   }
 

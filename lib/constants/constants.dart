@@ -8,9 +8,7 @@ Color? mainColor; // NullableのColor型として宣言します
 final appTheme = ThemeData.light().copyWith(
   textTheme: ThemeData.light().textTheme.apply(fontFamily: 'TaleSys'),
   textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: const Color.fromARGB(255, 158, 175, 76),
-    ),
+    style: TextButton.styleFrom(),
   ),
   appBarTheme: const AppBarTheme(
     titleTextStyle: TextStyle(
@@ -19,14 +17,13 @@ final appTheme = ThemeData.light().copyWith(
       fontFamily: 'TaleSys', // 追加: フォントファミリーを指定
     ),
     elevation: 0,
-    color: Color.fromRGBO(255, 244, 213, 1),
     toolbarHeight: 200, // AppBarを縦に広げる
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
       foregroundColor: Colors.black,
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+      backgroundColor: Colors.white,
       padding: const EdgeInsets.only(bottom: 30), // アイコン表示場所を下に下げる
     ),
   ),
@@ -37,7 +34,6 @@ final appTheme = ThemeData.light().copyWith(
   )),
   cardTheme: const CardTheme(
     elevation: 0,
-    color: Color.fromRGBO(255, 244, 213, 1),
   ),
   primaryColor: mainColor,
 );

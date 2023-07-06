@@ -100,8 +100,10 @@ class _InnatePageState extends State<InnatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('BIRTHDAY?')),
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+      appBar: AppBar(
+        title: const Text('お誕生日'),
+        backgroundColor: Colors.white,
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
@@ -127,7 +129,7 @@ class _InnatePageState extends State<InnatePage> {
                 final DateTime? picked = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime(1950, 1, 1),
+                  firstDate: DateTime(1990, 1, 1),
                   lastDate: DateTime.now(),
                 );
                 if (picked != null) {

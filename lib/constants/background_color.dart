@@ -76,3 +76,14 @@ class ProfileEditBackgroundColor extends MyBodyColor {
       super.backgroundColor2 = const Color.fromARGB(235, 235, 120, 235),
       super.backgroundColor3 = const Color.fromARGB(235, 235, 60, 235)});
 }
+
+//Profile Edit
+class BackgroundColor extends MyBodyColor {
+  const BackgroundColor(
+    Center center, {
+    super.key,
+    super.backgroundColor1 = Colors.white,
+    super.backgroundColor2 = Colors.white,
+    super.backgroundColor3 = Colors.white,
+  });
+}

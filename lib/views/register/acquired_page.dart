@@ -1,3 +1,4 @@
+//処理をViewModel等にリファクタリングする
 // MBTIによる分類
 import 'dart:math';
 
@@ -5,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/constants/progressbar.dart';
+import 'package:reegs/index.dart';
 import 'package:reegs/views/register/send_confirmation_page.dart';
 import 'package:reegs/view_models/register/acquired_viewmodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,9 +177,12 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                SendConfirmationPage(eiResult, nsResult, ftResult, jpResult),
+            builder: (context) => LiquidSwipeViews(),
           ),
+          // MaterialPageRoute(
+          //   builder: (context) =>
+          //       SendConfirmationPage(eiResult, nsResult, ftResult, jpResult),
+          // ),
         );
       }).catchError((error) {
         print('An error occurred while saving the data: $error');
@@ -339,49 +344,75 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text('Question ${widget.question.index + 1}'),
-            SizedBox(
-              height: 14,
-              child: LinearProgressBar(
+        backgroundColor: Colors.white,
+        titleSpacing: 0.0,
+        title: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LinearProgressBar(
                 progress: ((widget.question.index + 1) / 140),
               ),
-            ),
-          ],
+              Text(
+                '${widget.question.index + 1}/140',
+                style: const TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
         ),
+        leading: Container(), // Empty leading widget to offset the title
+        actions: [
+          // The dummy widget has the same size as the leading widget, to balance the AppBar
+          Container(width: MediaQuery.of(context).size.width * 0.125),
+        ],
       ),
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              questionTexts[widget.question]!,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                questionTexts[widget.question]!,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-            const SizedBox(width: 200, height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            const SizedBox(height: 50),
+            Column(
               children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: RadioListTile(
-                    value: questionClass[widget.question]! + 0,
-                    groupValue: _selectedAnswerIndex,
-                    onChanged: ((value) => _selectedAnswer(value as int)),
-                    title:
-                        Text(questionAnswers[widget.question]![0]), //回答Aのテキスト
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    fixedSize: const Size.fromWidth(200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    backgroundColor:
+                        Color.fromARGB(255, 120, 171, 74), // グレーの色を指定
+                  ),
+                  onPressed: () =>
+                      _selectedAnswer(questionClass[widget.question]! + 0),
+                  child: Text(
+                    questionAnswers[widget.question]![0], //回答Aのテキスト
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: RadioListTile(
-                    value: questionClass[widget.question]! + 1,
-                    groupValue: _selectedAnswerIndex,
-                    onChanged: ((value) => _selectedAnswer(value as int)),
-                    title:
-                        Text(questionAnswers[widget.question]![1]), //回答Bのテキスト
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    fixedSize: const Size.fromWidth(200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    backgroundColor: const Color.fromARGB(255, 249, 84, 40),
+                  ),
+                  onPressed: () =>
+                      _selectedAnswer(questionClass[widget.question]! + 1),
+                  child: Text(
+                    questionAnswers[widget.question]![1], //回答Bのテキスト
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

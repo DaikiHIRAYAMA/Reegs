@@ -10,6 +10,7 @@ class ProfileConfirmationPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Welcome'),
         automaticallyImplyLeading: false, // 戻るを非表示
+        backgroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -28,7 +29,11 @@ class ProfileConfirmationPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const AccountPage()),
                 );
               },
-              child: const Text('はじめる'),
+              child: const Text(
+                'はじめる',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
