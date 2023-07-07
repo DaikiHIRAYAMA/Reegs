@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/models/register/acquired_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 final EIProvider = StateNotifierProvider<AcquiredController, List<int>>((ref) {
   return AcquiredController();

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:reegs/views/register/account_page.dart';
 
-class StartConfirmationPage extends StatelessWidget {
+class ProfileConfirmationPage extends StatelessWidget {
+  const ProfileConfirmationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Welcome'),
         automaticallyImplyLeading: false, // 戻るを非表示
+        backgroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -26,7 +29,11 @@ class StartConfirmationPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const AccountPage()),
                 );
               },
-              child: const Text('はじめる'),
+              child: const Text(
+                'はじめる',
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),

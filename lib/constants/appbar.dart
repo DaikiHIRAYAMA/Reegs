@@ -54,8 +54,9 @@ class ProfileAppbar extends MyAppBar {
   const ProfileAppbar(
       {super.key,
       super.title = 'My Profile',
-      super.backgroundColor = const Color.fromARGB(235, 235, 60, 235),
-      super.textColor = Colors.black});
+      super.backgroundColor = const Color.fromARGB(245, 238, 227, 255),
+      super.textColor = Colors.black,
+      required List<IconButton> actions});
 }
 
 //Friend Detail
@@ -72,6 +73,6 @@ class ProfileEditAppbar extends MyAppBar {
   const ProfileEditAppbar(
       {super.key,
       super.title = 'My Profile Edit',
-      super.backgroundColor = const Color.fromARGB(235, 235, 180, 235),
+      super.backgroundColor = const Color.fromARGB(245, 238, 227, 255),
       super.textColor = Colors.black});
 }

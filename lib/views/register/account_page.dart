@@ -110,10 +110,10 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('NAME?'),
+        title: const Text('おなまえ'),
         automaticallyImplyLeading: false, // 戻るを非表示
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
@@ -125,7 +125,7 @@ class _AccountPageState extends State<AccountPage> {
               controller: _characterNameController,
               decoration: const InputDecoration(
                 // labelText: 'TYPE HERE',
-                hintText: 'TYPE HERE',
+                hintText: '_ _ _ _ _ _',
                 border: InputBorder.none,
                 floatingLabelBehavior: FloatingLabelBehavior.always, // ラベルを常に表示
                 labelStyle:
