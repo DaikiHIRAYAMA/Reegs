@@ -12,7 +12,7 @@ class MyProfileQRViewModel extends StatelessWidget {
     // 画面の横幅の60%をQRコードのサイズに設定
     double qrSize = screenWidth * 0.6;
     return Scaffold(
-      appBar: const ProfileAppbar(),
+      // appBar: const ProfileAppbar(),
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: Center(
         child: QrImage(
