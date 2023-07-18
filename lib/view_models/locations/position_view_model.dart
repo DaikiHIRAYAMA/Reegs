@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:reegs/models/profiles/user_model.dart';
-import 'package:reegs/view_models/profiles/profile_QR_view_model.dart';
 
 final positionViewModelProvider =
     ChangeNotifierProvider((ref) => PositionViewModel());

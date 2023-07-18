@@ -18,4 +18,12 @@ class AcquiredController extends StateNotifier<List<int>> {
       ...state.skip(index + 1),
     ];
   }
+
+  void skip(int index) {
+    state = [
+      ...state.take(index),
+      state[index],
+      ...state.skip(index + 1),
+    ];
+  }
 }

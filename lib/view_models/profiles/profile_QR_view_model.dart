@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/constants/appbar.dart';
-import 'package:reegs/constants/background_color.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class MyProfileQRViewModel extends StatelessWidget {

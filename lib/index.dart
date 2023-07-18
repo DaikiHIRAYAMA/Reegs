@@ -12,10 +12,12 @@ class LiquidSwipeViews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: MyStatefulWidget(),
-    );
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: const MaterialApp(
+          title: 'Flutter Demo',
+          home: MyStatefulWidget(),
+        ));
   }
 }
 
@@ -45,26 +47,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-          body: _screens[_selectedIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'EGO'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: 'Friends'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications), label: 'QR'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.message), label: 'Notions'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Profile'),
-            ],
-            type: BottomNavigationBarType.fixed,
-          )),
-    );
+    return Scaffold(
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'EGO'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: 'Friends'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: 'QR'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message), label: 'Notions'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+          type: BottomNavigationBarType.fixed,
+        ));
   }
 }

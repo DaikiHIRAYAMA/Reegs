@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:reegs/index.dart';
 import 'package:reegs/view_models/login/store.dart';
-import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/profile_confirmation_page.dart';
 import 'package:reegs/views/register/test_confirmation_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +48,7 @@ class SplashPage extends StatelessWidget {
                   return const ProfileConfirmationPage();
                 } else if (!(data?['test_complete'] ?? false)) {
                   // profileは完了し、testが未完了または診断の状態が不明の場合
-                  return TestConfirmationPage();
+                  return const TestConfirmationPage();
                 } else {
                   // すべての診断が完了している場合
                   return LiquidSwipeViews();

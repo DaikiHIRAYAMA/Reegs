@@ -32,13 +32,16 @@ class _QrScanViewState extends State<QrScanView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('QR READ'),
-        centerTitle: true,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('QR READ'),
+          centerTitle: true,
+        ),
+        backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+        body: _buildQrView(context),
       ),
-      backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
-      body: _buildQrView(context),
     );
   }
 

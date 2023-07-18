@@ -6,13 +6,17 @@
     "Cupertino",
     "dotenv",
     "firestore",
+    "flutterfire",
+    "Geolocator",
     "MBTI",
     "prefs",
     "progressbar",
     "reegs",
+    "RGBO",
     "riverpod",
     "Schyler",
     "Supabase",
     "viewmodel"
-  ]
+  ],
+  "cmake.sourceDirectory": "/Users/daiki_hirayama/AWAKE/Reegs/linux"
 }
