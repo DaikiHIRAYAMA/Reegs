@@ -97,6 +97,9 @@ flutter:
     - family: TaleSys
       fonts:
         - asset: fonts/telesys/TeleSys.ttf
+    - family: DotGothic16
+      fonts:
+        - asset: fonts/DotGothic16/DotGothic16-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

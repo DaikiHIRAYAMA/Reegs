@@ -6,7 +6,8 @@ const preloader = Center(child: CircularProgressIndicator());
 Color? mainColor; // NullableのColor型として宣言します
 
 final appTheme = ThemeData.light().copyWith(
-  textTheme: ThemeData.light().textTheme.apply(fontFamily: 'TaleSys'),
+  textTheme:
+      ThemeData.light().textTheme.apply(fontFamily: 'TaleSys, DotGothic16'),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(),
   ),
@@ -14,7 +15,7 @@ final appTheme = ThemeData.light().copyWith(
     titleTextStyle: TextStyle(
       color: Colors.black,
       fontSize: 40, // 文字の大きさを大きくする
-      fontFamily: 'TaleSys', // 追加: フォントファミリーを指定
+      fontFamily: 'TaleSys, DotGothic16', // 追加: フォントファミリーを指定
     ),
     elevation: 0,
     toolbarHeight: 200, // AppBarを縦に広げる

@@ -85,7 +85,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       // 合計値をもとにYESかNOのどちらが多いかを判断します。なんて名前にするのか判断する
       final eiResult = eiTotal >= 0 ? 'E' : 'I';
       final nsResult = nsTotal >= 0 ? 'S' : 'N';
-      final ftResult = ftTotal >= 0 ? 'F' : 'I';
+      final ftResult = ftTotal >= 0 ? 'F' : 'T';
       final jpResult = jpTotal >= 0 ? 'J' : 'P';
       final mbtiResult = eiResult + nsResult + ftResult + jpResult;
 
@@ -394,106 +394,115 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   @override
   Widget build(BuildContext context) {
     double buttonWidth = MediaQuery.of(context).size.width * 0.75;
-    print('Button width: $buttonWidth');
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        titleSpacing: 0.0,
-        title: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LinearProgressBar(
-                progress: ((widget.question.index + 1) / 140),
-              ),
-              Text(
-                '${widget.question.index + 1}/140',
-                style: const TextStyle(fontSize: 24),
-              ),
-            ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            // 戻るボタン
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ),
-        leading: Container(), // Empty leading widget to offset the title
-        actions: [
-          // The dummy widget has the same size as the leading widget, to balance the AppBar
-          Container(width: MediaQuery.of(context).size.width * 0.125),
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                alignment: Alignment.center,
-                child: Text(
-                  questionTexts[widget.question]!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            // SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-            Column(
+          backgroundColor: Colors.white,
+          title: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fixedSize:
-                        Size(MediaQuery.of(context).size.width * 0.75, 50),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    backgroundColor: Color.fromARGB(255, 120, 171, 74),
-                  ),
-                  onPressed: () =>
-                      _selectedAnswer(questionClass[widget.question]! + 0),
-                  child: Text(
-                    questionAnswers[widget.question]![0], //回答Aのテキスト
-                    style: const TextStyle(color: Colors.white, fontSize: 24),
-                  ),
+                Image.asset('lib/assets/images/splashes/splash.png'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                LinearProgressBar(
+                  progress: ((widget.question.index + 1) / 140),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fixedSize:
-                        Size(MediaQuery.of(context).size.width * 0.75, 50),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    backgroundColor: const Color.fromARGB(255, 249, 84, 40),
-                  ),
-                  onPressed: () =>
-                      _selectedAnswer(questionClass[widget.question]! + 1),
-                  child: Text(
-                    questionAnswers[widget.question]![1], //回答Bのテキスト
-                    style: const TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fixedSize: Size(buttonWidth, 50),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    backgroundColor: const Color.fromARGB(255, 245, 238, 227),
-                  ),
-                  onPressed: () =>
-                      _selectedAnswer(questionClass[widget.question]! + 2),
-                  child: const Text(
-                    "どちらでもない / 不明",
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
+                Text(
+                  '${widget.question.index + 1}/140',
+                  style: const TextStyle(fontSize: 24),
                 ),
               ],
-            )
+            ),
+          ),
+          actions: [
+            // The dummy widget has the same size as the leading widget, to balance the AppBar
+            Container(width: MediaQuery.of(context).size.width * 0.125),
           ],
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  alignment: Alignment.center,
+                  child: Text(
+                    questionTexts[widget.question]!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      backgroundColor: Color.fromARGB(255, 120, 171, 74),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 0),
+                    child: Text(
+                      questionAnswers[widget.question]![0], //回答Aのテキスト
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      backgroundColor: const Color.fromARGB(255, 249, 84, 40),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 1),
+                    child: Text(
+                      questionAnswers[widget.question]![1], //回答Bのテキスト
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize: Size(buttonWidth, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      backgroundColor: const Color.fromARGB(255, 245, 238, 227),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 2),
+                    child: const Text(
+                      "どちらでもない / 不明",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
