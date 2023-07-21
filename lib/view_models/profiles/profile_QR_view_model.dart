@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reegs/constants/appbar.dart';
-import 'package:reegs/constants/background_color.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class MyProfileQRViewModel extends StatelessWidget {
@@ -12,7 +10,7 @@ class MyProfileQRViewModel extends StatelessWidget {
     // 画面の横幅の60%をQRコードのサイズに設定
     double qrSize = screenWidth * 0.6;
     return Scaffold(
-      appBar: const ProfileAppbar(),
+      // appBar: const ProfileAppbar(),
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: Center(
         child: QrImage(

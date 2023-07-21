@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:reegs/constants/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,7 +12,6 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   final _characterNameController = TextEditingController();
-  String? _avatarUrl;
   var _loading = false;
 
   /// Called once a user id is received within `onAuthenticated()`
@@ -32,12 +30,11 @@ class _AccountPageState extends State<AccountPage> {
       if (docSnapshot.exists) {
         final data = docSnapshot.data() as Map<String, dynamic>;
         _characterNameController.text = (data['username'] ?? '') as String;
-        _avatarUrl = (data['avatar_url'] ?? '') as String;
       } else {
         // Handle case where no document is found.
       }
     } catch (error) {
-      showErrorSnackBar(); // <-- Update here
+      showNameErrorSnackBar(); // <-- Update here
     }
 
     setState(() {
@@ -63,11 +60,10 @@ class _AccountPageState extends State<AccountPage> {
             .doc(user.uid)
             .set(updates, SetOptions(merge: true));
 
-        showSuccessSnackBar(); // <-- Update here
+        showNameSuccessSnackBar(); // <-- Update here
       } catch (error) {
-        showErrorSnackBar(); // <-- Update here
+        showNameErrorSnackBar(); // <-- Update here
       }
-      ;
     } else {
       Navigator.pushNamed(context, '/login');
     }
@@ -76,20 +72,20 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
-  void showSuccessSnackBar() {
+  void showNameSuccessSnackBar() {
     if (mounted) {
       SchedulerBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Successfully updated profile!')),
+          const SnackBar(content: Text('名前を登録しました')),
         );
       });
     }
   }
 
-  void showErrorSnackBar() {
+  void showNameErrorSnackBar() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unexpected error occurred')),
+        const SnackBar(content: Text('名前を変更できませんでした')),
       );
     });
   }
@@ -109,6 +105,7 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('おなまえ'),
         automaticallyImplyLeading: false, // 戻るを非表示
@@ -143,10 +140,25 @@ class _AccountPageState extends State<AccountPage> {
                 color: Colors.black,
                 size: 80, // アイコンを大きくする
               ),
-              onPressed: () {
-                _registerProfile();
-                Navigator.pushNamed(context, '/innate');
-              },
+              onPressed: _loading
+                  ? null
+                  : () async {
+                      // Disable the button when _loading is true
+                      try {
+                        await _registerProfile(); // Wait until _registerProfile is complete
+                        if (!_loading) {
+                          // Check again if _loading is false, if not, do not navigate
+                          Navigator.pushNamed(context, '/innate');
+                        }
+                      } catch (error) {
+                        showNameErrorSnackBar(); // <-- Show error message
+                        if (Navigator.canPop(context)) {
+                          // Check if Navigator has a previous page
+                          Navigator.pop(
+                              context); // Go back to the previous page
+                        }
+                      }
+                    },
             ),
           ),
         ],

@@ -1,7 +1,5 @@
 //生年月日による分類
 import 'package:flutter/scheduler.dart';
-import 'package:reegs/constants/constants.dart';
-import 'package:reegs/models/profiles/calcurate_color.dart';
 import 'package:reegs/constants/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
@@ -55,39 +53,52 @@ class _InnatePageState extends State<InnatePage> {
     setState(() {
       _loading = true;
     });
-    final birthday = _birthdayController.text;
+
     final user = firebase.FirebaseAuth.instance.currentUser;
+
     if (user == null) {
-      // Here handle the situation when user is null.
-      // You may want to return from the function or show some error message
+      //userのNullチェック
       return;
     }
+    final birthday = _birthdayController.text;
     final updates = {
       'id': user.uid,
       'birthday': birthday,
       'updated_at': DateTime.now().toIso8601String(),
     };
+
     try {
-      setState(() {
-        mainColor = calculateColor(birthday);
-      });
       await FirebaseFirestore.instance
           .collection('characters')
           .doc(user.uid)
           .set(updates, SetOptions(merge: true));
-
-      if (mounted) {
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          context.showSnackBar(message: '生年月日を登録しました');
-        });
-      }
     } catch (error) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        context.showErrorSnackBar(message: 'Unexpected error occurred');
-      });
+      showBirthdayErrorSnackBar();
+      _loading = false;
+      return;
     }
+
     setState(() {
       _loading = false;
+      // mainColor = updates['color'];
+    });
+  }
+
+  void showBirthdaySuccessSnackBar() {
+    if (mounted) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('生年月日を登録しました')),
+        );
+      });
+    }
+  }
+
+  void showBirthdayErrorSnackBar() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('生年月日を登録できませんでした')),
+      );
     });
   }
 
@@ -100,8 +111,9 @@ class _InnatePageState extends State<InnatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('お誕生日'),
+        title: const Text('生年月日'),
         backgroundColor: Colors.white,
       ),
       body: ListView(
@@ -113,11 +125,12 @@ class _InnatePageState extends State<InnatePage> {
             alignment: Alignment.center,
             child: ElevatedButton(
               style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.all(0)), // この行を追加
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.all(0)), // この行を追加
               ),
               child: Text(
                 _birthdayController.text.isEmpty
-                    ? 'TYPE HERE'
+                    ? '生年月日を登録してください'
                     : _birthdayController.text,
                 style: TextStyle(
                     fontSize: 40,
@@ -140,17 +153,30 @@ class _InnatePageState extends State<InnatePage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 80),
+            padding: const EdgeInsets.only(top: 80),
             child: IconButton(
               icon: const Icon(
                 Icons.forward,
                 color: Colors.black,
                 size: 80, // アイコンを大きくする
               ),
-              onPressed: () {
-                _registerBirthday();
-                Navigator.pushNamed(context, '/siblings');
-              },
+              onPressed: _loading
+                  ? null
+                  : () async {
+                      try {
+                        await _registerBirthday();
+                        if (!_loading) {
+                          Navigator.pushNamed(context, '/siblings');
+                        }
+                      } catch (error) {
+                        showBirthdayErrorSnackBar();
+                        if (Navigator.canPop(context)) {
+                          // Check if Navigator has a previous page
+                          Navigator.pop(
+                              context); // Go back to the previous page
+                        }
+                      }
+                    },
             ),
           ),
         ],

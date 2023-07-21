@@ -7,6 +7,7 @@ class TestConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false, // 戻るを非表示
         backgroundColor: Colors.white,

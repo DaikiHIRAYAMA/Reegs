@@ -12,6 +12,7 @@ class ProfileConfirmationPage extends StatelessWidget {
         automaticallyImplyLeading: false, // 戻るを非表示
         backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

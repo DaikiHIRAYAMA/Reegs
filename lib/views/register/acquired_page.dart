@@ -85,7 +85,7 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
       // 合計値をもとにYESかNOのどちらが多いかを判断します。なんて名前にするのか判断する
       final eiResult = eiTotal >= 0 ? 'E' : 'I';
       final nsResult = nsTotal >= 0 ? 'S' : 'N';
-      final ftResult = ftTotal >= 0 ? 'F' : 'I';
+      final ftResult = ftTotal >= 0 ? 'F' : 'T';
       final jpResult = jpTotal >= 0 ? 'J' : 'P';
       final mbtiResult = eiResult + nsResult + ftResult + jpResult;
 
@@ -220,6 +220,9 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 1:
           ref.read(iwayuruProvider.notifier).increment(widget.question.index);
           break;
+        case 2:
+          ref.read(iwayuruProvider.notifier).skip(widget.question.index);
+          break;
 
         //EI判断
         case 10:
@@ -228,12 +231,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 11:
           ref.read(EIProvider.notifier).decrement(widget.question.index);
           break;
+        case 12:
+          ref.read(EIProvider.notifier).skip(widget.question.index);
+          break;
         //NS判断
         case 20:
           ref.read(NSProvider.notifier).increment(widget.question.index);
           break;
         case 21:
           ref.read(NSProvider.notifier).decrement(widget.question.index);
+          break;
+        case 22:
+          ref.read(EIProvider.notifier).skip(widget.question.index);
           break;
         //FT判断
         case 30:
@@ -242,12 +251,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 31:
           ref.read(FTProvider.notifier).decrement(widget.question.index);
           break;
+        case 32:
+          ref.read(FTProvider.notifier).skip(widget.question.index);
+          break;
         //JP判断
         case 40:
           ref.read(JPProvider.notifier).increment(widget.question.index);
           break;
         case 41:
           ref.read(JPProvider.notifier).decrement(widget.question.index);
+          break;
+        case 42:
+          ref.read(JPProvider.notifier).skip(widget.question.index);
           break;
         //HSP
         case 50:
@@ -256,12 +271,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 51:
           ref.read(HSPProvider.notifier).decrement(widget.question.index);
           break;
+        case 52:
+          ref.read(HSPProvider.notifier).skip(widget.question.index);
+          break;
         //サイコパス
         case 60:
           ref.read(PsyProvider.notifier).increment(widget.question.index);
           break;
         case 61:
           ref.read(PsyProvider.notifier).decrement(widget.question.index);
+          break;
+        case 62:
+          ref.read(PsyProvider.notifier).skip(widget.question.index);
           break;
         //ソシオパス
         case 70:
@@ -270,12 +291,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 71:
           ref.read(SocProvider.notifier).decrement(widget.question.index);
           break;
+        case 72:
+          ref.read(SocProvider.notifier).skip(widget.question.index);
+          break;
         // type1
         case 110:
           ref.read(En1Provider.notifier).increment(widget.question.index);
           break;
         case 111:
           ref.read(En1Provider.notifier).decrement(widget.question.index);
+          break;
+        case 112:
+          ref.read(En1Provider.notifier).skip(widget.question.index);
           break;
         // type2
         case 120:
@@ -284,12 +311,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 121:
           ref.read(En2Provider.notifier).decrement(widget.question.index);
           break;
+        case 122:
+          ref.read(En2Provider.notifier).skip(widget.question.index);
+          break;
         // type3
         case 130:
           ref.read(En3Provider.notifier).increment(widget.question.index);
           break;
         case 131:
           ref.read(En3Provider.notifier).decrement(widget.question.index);
+          break;
+        case 132:
+          ref.read(En3Provider.notifier).skip(widget.question.index);
           break;
         // type4
         case 140:
@@ -298,12 +331,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 141:
           ref.read(En4Provider.notifier).decrement(widget.question.index);
           break;
+        case 142:
+          ref.read(En4Provider.notifier).skip(widget.question.index);
+          break;
         // type5
         case 150:
           ref.read(En5Provider.notifier).increment(widget.question.index);
           break;
         case 151:
           ref.read(En5Provider.notifier).decrement(widget.question.index);
+          break;
+        case 152:
+          ref.read(En5Provider.notifier).skip(widget.question.index);
           break;
         // type6
         case 160:
@@ -312,12 +351,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 161:
           ref.read(En6Provider.notifier).decrement(widget.question.index);
           break;
+        case 162:
+          ref.read(En6Provider.notifier).skip(widget.question.index);
+          break;
         // type7
         case 170:
           ref.read(En7Provider.notifier).increment(widget.question.index);
           break;
         case 171:
           ref.read(En7Provider.notifier).decrement(widget.question.index);
+          break;
+        case 172:
+          ref.read(En7Provider.notifier).skip(widget.question.index);
           break;
         // type8
         case 180:
@@ -326,12 +371,18 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
         case 181:
           ref.read(En8Provider.notifier).decrement(widget.question.index);
           break;
+        case 182:
+          ref.read(En8Provider.notifier).skip(widget.question.index);
+          break;
         // type9
         case 190:
           ref.read(En9Provider.notifier).increment(widget.question.index);
           break;
         case 191:
           ref.read(En9Provider.notifier).decrement(widget.question.index);
+          break;
+        case 192:
+          ref.read(En9Provider.notifier).skip(widget.question.index);
           break;
       }
     }
@@ -342,82 +393,116 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        titleSpacing: 0.0,
-        title: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              LinearProgressBar(
-                progress: ((widget.question.index + 1) / 140),
-              ),
-              Text(
-                '${widget.question.index + 1}/140',
-                style: const TextStyle(fontSize: 24),
-              ),
-            ],
+    double buttonWidth = MediaQuery.of(context).size.width * 0.75;
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            // 戻るボタン
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ),
-        leading: Container(), // Empty leading widget to offset the title
-        actions: [
-          // The dummy widget has the same size as the leading widget, to balance the AppBar
-          Container(width: MediaQuery.of(context).size.width * 0.125),
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Center(
-              child: Text(
-                questionTexts[widget.question]!,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 50),
-            Column(
+          backgroundColor: Colors.white,
+          title: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fixedSize: const Size.fromWidth(200),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    backgroundColor:
-                        Color.fromARGB(255, 120, 171, 74), // グレーの色を指定
-                  ),
-                  onPressed: () =>
-                      _selectedAnswer(questionClass[widget.question]! + 0),
-                  child: Text(
-                    questionAnswers[widget.question]![0], //回答Aのテキスト
-                    style: TextStyle(color: Colors.white),
-                  ),
+                Image.asset('lib/assets/images/splashes/splash.png'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                LinearProgressBar(
+                  progress: ((widget.question.index + 1) / 140),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    fixedSize: const Size.fromWidth(200),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    backgroundColor: const Color.fromARGB(255, 249, 84, 40),
-                  ),
-                  onPressed: () =>
-                      _selectedAnswer(questionClass[widget.question]! + 1),
-                  child: Text(
-                    questionAnswers[widget.question]![1], //回答Bのテキスト
-                    style: TextStyle(color: Colors.white),
-                  ),
+                Text(
+                  '${widget.question.index + 1}/140',
+                  style: const TextStyle(fontSize: 24),
                 ),
               ],
-            )
+            ),
+          ),
+          actions: [
+            // The dummy widget has the same size as the leading widget, to balance the AppBar
+            Container(width: MediaQuery.of(context).size.width * 0.125),
           ],
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  alignment: Alignment.center,
+                  child: Text(
+                    questionTexts[widget.question]!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+              Column(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      backgroundColor: Color.fromARGB(255, 120, 171, 74),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 0),
+                    child: Text(
+                      questionAnswers[widget.question]![0], //回答Aのテキスト
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize:
+                          Size(MediaQuery.of(context).size.width * 0.75, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      backgroundColor: const Color.fromARGB(255, 249, 84, 40),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 1),
+                    child: Text(
+                      questionAnswers[widget.question]![1], //回答Bのテキスト
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      fixedSize: Size(buttonWidth, 50),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      backgroundColor: const Color.fromARGB(255, 245, 238, 227),
+                    ),
+                    onPressed: () =>
+                        _selectedAnswer(questionClass[widget.question]! + 2),
+                    child: const Text(
+                      "どちらでもない / 不明",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

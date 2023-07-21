@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
+// import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:reegs/views/friends/friend_detail_page.dart';
 import 'package:reegs/views/friends/friends_list_page.dart';
 import 'package:reegs/views/profiles/profile_edit_page.dart';
@@ -10,54 +10,59 @@ class LiquidSwipeViews extends StatelessWidget {
   //スワイプエフェクト
   LiquidSwipeViews({Key? key}) : super(key: key);
 
-  final myProfileController = PageController(initialPage: 0); // 0-indexed
-  final friendListController = PageController(initialPage: 1); // 0-indexed
-  final qrScanController = PageController(initialPage: 0); // 0-indexed
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: const MaterialApp(
+          title: 'Flutter Demo',
+          home: MyStatefulWidget(),
+        ));
+  }
+}
 
-  List<Widget> get pages {
-    return <Widget>[
-      //スワイプ先
-      PageView(
-        controller: myProfileController,
-        scrollDirection: Axis.vertical,
-        children: [
-          MyProfilePage(),
-          const MyProfileEditPage(),
-        ],
-      ),
-      PageView(
-        controller: friendListController,
-        scrollDirection: Axis.vertical,
-        children: [
-          MyProfilePage(),
-          FriendListPage(),
-          FriendDetailPage(),
-        ],
-      ),
-      PageView(
-        controller: qrScanController,
-        scrollDirection: Axis.vertical,
-        children: [
-          QrScanView(),
-          const MyProfileEditPage(),
-        ],
-      ),
-    ];
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  static final _screens = [
+    MyProfilePage(),
+    const FriendListPage(),
+    QrScanView(),
+    const MyProfileEditPage(),
+    const FriendDetailPage(),
+  ];
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final PageController controller = PageController();
     return Scaffold(
-      body: LiquidSwipe.builder(
-        initialPage: 0, //友達一覧の表示
-        itemCount: pages.length,
-        itemBuilder: (BuildContext context, int index) {
-          return pages[index];
-        },
-
-        enableLoop: true, //ループ許可
-      ),
-    );
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'EGO'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: 'Friends'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications), label: 'QR'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message), label: 'Notions'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+          type: BottomNavigationBarType.fixed,
+        ));
   }
 }

@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class SiblingsPage extends StatefulWidget {
   @override
@@ -36,6 +37,24 @@ class _SiblingsPageState extends State<SiblingsPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  void showSiblingsErrorSnackBar() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('生年月日を登録できませんでした')),
+      );
+    });
+  }
+
+  void showSiblingsSuccessSnackBar() {
+    if (mounted) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('兄弟構成を登録しました')),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -55,13 +74,25 @@ class _SiblingsPageState extends State<SiblingsPage> {
         children: [
           Card(
             child: Column(children: [
+              //一人っ子
               InkWell(
-                onTap: () {
-                  _onRadioSelected(SiblingsValue.Only);
-                  _registerSiblings();
-                  Navigator.pushNamed(context, '/testConfirm');
-                  // 任意の遷移処理をここに追加してください
-                },
+                onTap: _loading
+                    ? null
+                    : () async {
+                        try {
+                          _onRadioSelected(SiblingsValue.Only);
+                          await _registerSiblings();
+                          if (!_loading) {
+                            Navigator.pushNamed(context, '/testConfirm');
+                          }
+                          // 任意の遷移処理をここに追加してください
+                        } catch (error) {
+                          showSiblingsErrorSnackBar();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -76,13 +107,25 @@ class _SiblingsPageState extends State<SiblingsPage> {
           ),
           Card(
             child: Column(children: [
+              //長子
               InkWell(
-                onTap: () {
-                  _onRadioSelected(SiblingsValue.Eldest);
-                  _registerSiblings();
-                  Navigator.pushNamed(context, '/testConfirm');
-                  // 任意の遷移処理をここに追加してください
-                },
+                onTap: _loading
+                    ? null
+                    : () async {
+                        try {
+                          _onRadioSelected(SiblingsValue.Eldest);
+                          await _registerSiblings();
+                          if (!_loading) {
+                            Navigator.pushNamed(context, '/testConfirm');
+                          }
+                          // 任意の遷移処理をここに追加してください
+                        } catch (error) {
+                          showSiblingsErrorSnackBar();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,12 +141,23 @@ class _SiblingsPageState extends State<SiblingsPage> {
           Card(
             child: Column(children: [
               InkWell(
-                onTap: () {
-                  _onRadioSelected(SiblingsValue.Middle);
-                  _registerSiblings();
-                  Navigator.pushNamed(context, '/testConfirm');
-                  // 任意の遷移処理をここに追加してください
-                },
+                onTap: _loading
+                    ? null
+                    : () async {
+                        try {
+                          _onRadioSelected(SiblingsValue.Middle);
+                          await _registerSiblings();
+                          if (!_loading) {
+                            Navigator.pushNamed(context, '/testConfirm');
+                          }
+                          // 任意の遷移処理をここに追加してください
+                        } catch (error) {
+                          showSiblingsErrorSnackBar();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -119,12 +173,23 @@ class _SiblingsPageState extends State<SiblingsPage> {
           Card(
             child: Column(children: [
               InkWell(
-                onTap: () {
-                  _onRadioSelected(SiblingsValue.Youngest);
-                  _registerSiblings();
-                  Navigator.pushNamed(context, '/testConfirm');
-                  // 任意の遷移処理をここに追加してください
-                },
+                onTap: _loading
+                    ? null
+                    : () async {
+                        try {
+                          _onRadioSelected(SiblingsValue.Youngest);
+                          await _registerSiblings();
+                          if (!_loading) {
+                            Navigator.pushNamed(context, '/testConfirm');
+                          }
+                          // 任意の遷移処理をここに追加してください
+                        } catch (error) {
+                          showSiblingsErrorSnackBar();
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -153,7 +218,6 @@ class _SiblingsPageState extends State<SiblingsPage> {
     setState(() {
       _loading = true;
     });
-
     final user = _auth.currentUser;
     if (user != null) {
       final updates = {
@@ -166,17 +230,13 @@ class _SiblingsPageState extends State<SiblingsPage> {
             .collection('characters')
             .doc(user.uid)
             .set(updates, SetOptions(merge: true));
-        if (mounted) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('兄弟構成を登録しました')));
-        }
+        showSiblingsSuccessSnackBar();
       } catch (error) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Error: $error')));
+        showSiblingsErrorSnackBar();
       }
-      setState(() {
-        _loading = false;
-      });
     }
+    setState(() {
+      _loading = false;
+    });
   }
 }
