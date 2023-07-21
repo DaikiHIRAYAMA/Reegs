@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter',
+        locale: const Locale('ja', 'JP'),
         theme: appTheme,
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく
