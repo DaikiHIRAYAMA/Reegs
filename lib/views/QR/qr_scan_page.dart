@@ -1,12 +1,12 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:reegs/views/profiles/profile_QR_page.dart';
+// import 'package:reegs/views/profiles/profile_QR_page.dart';
 
 class QrScanView extends StatefulWidget {
+  const QrScanView({super.key});
+
   @override
   _QrScanViewState createState() => _QrScanViewState();
 }
@@ -61,15 +61,22 @@ class _QrScanViewState extends State<QrScanView> {
         appBar: AppBar(
           title: const Text('QR READ'),
           centerTitle: true,
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            // 戻るボタン
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
-        backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
+        backgroundColor: Colors.white,
         body: _buildQrView(context),
       ),
     );
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 150.0
