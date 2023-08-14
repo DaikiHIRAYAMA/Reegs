@@ -23,8 +23,8 @@ class SplashPage extends StatelessWidget {
   Future<Map<String, bool>> checkDiagnosesCompletion() async {
     final prefs = await SharedPreferences.getInstance();
     Map<String, bool> completionStatus = {
-      'innate_complete': prefs.getBool('profile_complete') ?? false,
-      'siblings_complete': prefs.getBool('test_complete') ?? false,
+      'profile_complete': prefs.getBool('profile_complete') ?? false,
+      'test_complete': prefs.getBool('test_complete') ?? false,
     };
 
     return completionStatus;
@@ -45,16 +45,21 @@ class SplashPage extends StatelessWidget {
                 bool? profileComplete = data?['profile_complete'];
                 if (profileComplete == null || !profileComplete) {
                   // profileが未完了または診断の状態が不明の場合
+                  print(profileComplete);
+                  print("not profile or not diagnose");
                   return const ProfileConfirmationPage();
                 } else if (!(data?['test_complete'] ?? false)) {
                   // profileは完了し、testが未完了または診断の状態が不明の場合
-                  return const TestConfirmationPage();
+                  print("not diagnose or not test");
+                  return TestConfirmationPage();
                 } else {
                   // すべての診断が完了している場合
+                  print("all complete");
                   return LiquidSwipeViews();
                 }
               } else {
                 // データがまだロードされていない場合、ローディングスピナーを表示するなど
+                print("loading");
                 return const CircularProgressIndicator();
               }
             },

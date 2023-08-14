@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TestConfirmationPage extends StatelessWidget {
-  const TestConfirmationPage({super.key});
+  TestConfirmationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,19 @@ class TestConfirmationPage extends StatelessWidget {
   }
 
   Future<void> completeDiagnosis(String diagnosisKey) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(diagnosisKey, true);
+    final User? user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
+    if (userId == null) {
+      // ユーザーIDがnullの場合の処理（エラーメッセージの表示など）
+      return;
+    }
+
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    try {
+      return await users.doc(userId).update({'profile_complete': true});
+    } catch (e) {
+      // エラーが発生した場合の処理（エラーメッセージの表示など）
+    }
   }
 }

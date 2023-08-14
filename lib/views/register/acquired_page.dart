@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reegs/constants/progressbar.dart';
@@ -25,8 +26,9 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
   int? _selectedAnswerIndex;
 
   Future<void> completeDiagnosis(String diagnosisKey) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(diagnosisKey, true);
+    await prefs.setBool('$userId-$diagnosisKey', true);
   }
 
   Future<void> saveResultsAndCompleteDiagnosis(
@@ -51,8 +53,9 @@ class _AcquiredPage extends ConsumerState<AcquiredPage> {
     int enResult,
   ) async {
     final firestore = FirebaseFirestore.instance;
+    final userId = FirebaseAuth.instance.currentUser!.uid;
 
-    await firestore.collection('diagnosis-results').add({
+    await firestore.collection('diagnosis-results').doc(userId).set({
       'mbti_result': mbtiResult,
       'hsp_result': hspResult,
       'psy_result': psyResult,
