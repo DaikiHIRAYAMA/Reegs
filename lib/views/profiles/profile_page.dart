@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:reegs/models/register/MBTImodel.dart';
+import 'package:reegs/models/register/Enneagram_model.dart';
+import 'package:reegs/models/register/MBTI_model.dart';
+import 'package:reegs/view_models/register/Enneagram_viewmodel.dart';
 import 'package:reegs/view_models/register/MBTI_viewmodel.dart';
 
 class MyProfilePage extends ConsumerWidget {
@@ -50,6 +52,8 @@ class MyProfilePage extends ConsumerWidget {
                 final enResult = doc.get('en_result');
                 final mbtiModel = MBTIModel(mbtiResult);
                 final mbtiViewModel = MBTIViewModel(mbtiModel);
+                final enModel = EnneagramModel(enResult);
+                final enViewModel = EnneagramViewModel(enModel);
 
                 return Column(
                   children: [
@@ -77,11 +81,14 @@ class MyProfilePage extends ConsumerWidget {
                             children: [
                               const Text('MBTIの内容'),
                               Text(mbtiViewModel.description),
+                              Text(mbtiViewModel.detailedDescription),
                               Text('MBTI Result: $mbtiResult'),
                               Text('HSP Result: $hspResult'),
                               Text('PSY Result: $psyResult'),
                               Text('SOC Result: $socResult'),
                               Text('En Result: $enResult'),
+                              Text(enViewModel.description),
+                              Text(enViewModel.detailedDescription),
                             ],
                           ),
                         ],

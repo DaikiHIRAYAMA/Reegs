@@ -5,6 +5,7 @@ import 'package:reegs/views/friends/friends_list_page.dart';
 import 'package:reegs/views/profiles/profile_edit_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
 import 'views/friends/qr_scan_page.dart';
+import 'views/profiles/profile_QR_page.dart';
 
 class LiquidSwipeViews extends StatelessWidget {
   //スワイプエフェクト
@@ -16,13 +17,16 @@ class LiquidSwipeViews extends StatelessWidget {
         onWillPop: () async => false,
         child: const MaterialApp(
           title: 'Flutter Demo',
-          home: MyStatefulWidget(),
+          home: MyStatefulWidget(
+            userId: '',
+          ),
         ));
   }
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  final String userId;
+  const MyStatefulWidget({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -32,7 +36,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static final _screens = [
     MyProfilePage(),
     const FriendListPage(),
-    QrScanView(),
+    MyProfileQRPage(userId: ""),
     const MyProfileEditPage(),
     const FriendDetailPage(),
   ];

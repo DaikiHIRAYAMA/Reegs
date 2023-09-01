@@ -1,21 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:reegs/constants/appbar.dart';
-import 'package:reegs/constants/background_color.dart';
-import 'package:reegs/views/friends/friends_list_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:reegs/models/friends/friend.model.dart';
 
-// ignore: unused_element
-class FriendListState extends State<FriendListPage> {
-  List<Widget> list = [];
+class FriendsListViewModel extends ChangeNotifier {
+  List<Friend> _friends = [];
 
-  @override
-  Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: const Scaffold(
-        appBar: FriendListAppbar(),
-        body: FriendListBackgroundColor(),
-      ),
-    );
+  List<Friend> get friends => _friends;
+
+  void fetchFriends() async {
+    final QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    _friends = snapshot.docs.map((doc) {
+      return Friend(
+        name: doc['name'], // フィールド名に応じて変更
+        userId: doc['userId'], // フィールド名に応じて変更
+      );
+    }).toList();
+
+    notifyListeners(); // UIを更新
   }
 }
