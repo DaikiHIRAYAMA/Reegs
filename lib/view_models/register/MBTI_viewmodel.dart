@@ -1,5 +1,5 @@
 // ignore: file_names
-import 'package:reegs/models/register/MBTI_model.dart';
+import 'package:reegs/models/register/mbti_text_model.dart';
 
 class MBTIViewModel {
   final MBTIModel model;

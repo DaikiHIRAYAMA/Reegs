@@ -4,7 +4,7 @@ import 'package:reegs/views/friends/friend_detail_page.dart';
 import 'package:reegs/views/friends/friends_list_page.dart';
 import 'package:reegs/views/profiles/profile_edit_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
-import 'views/friends/qr_scan_page.dart';
+// import 'views/friends/qr_scan_page.dart';
 import 'views/profiles/profile_QR_page.dart';
 
 class LiquidSwipeViews extends StatelessWidget {

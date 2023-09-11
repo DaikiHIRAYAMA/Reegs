@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reegs/constants/progressbar.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -75,4 +76,53 @@ class ProfileEditAppbar extends MyAppBar {
       super.title = 'My Profile Edit',
       super.backgroundColor = const Color.fromARGB(245, 238, 227, 255),
       super.textColor = Colors.black});
+}
+
+//質問回答
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final int currentIndex;
+  final int totalQuestions;
+
+  CustomAppBar({
+    required this.currentIndex,
+    required this.totalQuestions,
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  Widget buildAppBarTitle(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return SizedBox(
+      width: screenSize.width * 0.75,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('lib/assets/images/splashes/splash.png'),
+          SizedBox(height: screenSize.height * 0.02),
+          LinearProgressBar(
+            progress: ((currentIndex + 1) / totalQuestions),
+          ),
+          Text(
+            '${currentIndex + 1}/$totalQuestions',
+            style: const TextStyle(fontSize: 24),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
+      backgroundColor: Colors.white,
+      title: buildAppBarTitle(context),
+      actions: [Container(width: screenSize.width * 0.125)],
+    );
+  }
 }

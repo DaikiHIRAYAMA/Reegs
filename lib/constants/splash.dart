@@ -20,11 +20,13 @@ class SplashPage extends StatelessWidget {
     await prefs.setBool(diagnosisKey, true);
   }
 
-  Future<Map<String, bool>> checkDiagnosesCompletion() async {
+  Future<Map<String, bool>> checkDiagnosesCompletion(String userId) async {
     final prefs = await SharedPreferences.getInstance();
+    final profileKey = '${userId}_profile_complete';
+    final testKey = '${userId}_test_complete';
     Map<String, bool> completionStatus = {
-      'profile_complete': prefs.getBool('profile_complete') ?? false,
-      'test_complete': prefs.getBool('test_complete') ?? false,
+      'profile_complete': prefs.getBool(profileKey) ?? false,
+      'test_complete': prefs.getBool(testKey) ?? false,
     };
 
     return completionStatus;
@@ -32,13 +34,15 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid ?? '';
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //ユーザーがサインインしている場合
           return FutureBuilder<Map<String, bool>>(
-            future: checkDiagnosesCompletion(),
+            future: checkDiagnosesCompletion(userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Map<String, bool>? data = snapshot.data;
@@ -54,6 +58,7 @@ class SplashPage extends StatelessWidget {
                   return TestConfirmationPage();
                 } else {
                   // すべての診断が完了している場合
+                  print("all complete");
                   print("all complete");
                   return LiquidSwipeViews();
                 }
