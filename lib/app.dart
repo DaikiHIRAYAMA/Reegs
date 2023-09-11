@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:reegs/constants/constants.dart';
 import 'package:reegs/constants/splash.dart';
-import 'package:reegs/views/friends/qr_scan_page.dart';
+import 'package:reegs/views/QR/qr_scan_page.dart';
 import 'package:reegs/views/profiles/profile_page.dart';
 import 'package:reegs/views/register/account_page.dart';
 import 'package:reegs/views/register/acquired_page.dart';
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter',
+        locale: const Locale('ja', 'JP'),
         theme: appTheme,
         routes: <String, WidgetBuilder>{
           //ここにルーティングをかく

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 
 class InnatePage extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _InnatePageState extends State<InnatePage> {
 
   void _onDateSelected(DateTime date) {
     setState(() {
-      _birthdayController.text = DateFormat('yyyy/MM/dd').format(date);
+      _birthdayController.text = DateFormat('yyyy年MM月dd日').format(date);
     });
   }
 
@@ -125,8 +126,7 @@ class _InnatePageState extends State<InnatePage> {
             alignment: Alignment.center,
             child: ElevatedButton(
               style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                    const EdgeInsets.all(0)), // この行を追加
+                padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
               ),
               child: Text(
                 _birthdayController.text.isEmpty
@@ -138,17 +138,21 @@ class _InnatePageState extends State<InnatePage> {
                         ? Colors.grey
                         : Colors.black),
               ),
-              onPressed: () async {
-                final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1990, 1, 1),
-                  lastDate: DateTime.now(),
+              onPressed: () {
+                DatePicker.showDatePicker(
+                  context,
+                  showTitleActions: true,
+                  minTime: DateTime(1900, 1, 1),
+                  maxTime: DateTime.now(),
+                  currentTime: DateTime(2000, 1, 1),
+                  onConfirm: (date) {
+                    setState(() {
+                      _birthdayController.text =
+                          DateFormat('yyyy年MM月dd日').format(date);
+                    });
+                    _onDateSelected(date);
+                  },
                 );
-                if (picked != null) {
-                  print('確認 $picked');
-                  _onDateSelected(picked);
-                }
               },
             ),
           ),

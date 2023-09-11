@@ -43,8 +43,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes(カメラの使用許可のための文言)</string>
+    <key>NSCameraUsageDescription</key>
+    <string>カメラへのアクセスが必要です。</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>ロケーション情報を利用する理由を記載</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
