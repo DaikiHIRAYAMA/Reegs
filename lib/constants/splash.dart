@@ -20,11 +20,13 @@ class SplashPage extends StatelessWidget {
     await prefs.setBool(diagnosisKey, true);
   }
 
-  Future<Map<String, bool>> checkDiagnosesCompletion() async {
+  Future<Map<String, bool>> checkDiagnosesCompletion(String userId) async {
     final prefs = await SharedPreferences.getInstance();
+    final profileKey = '${userId}_profile_complete';
+    final testKey = '${userId}_test_complete';
     Map<String, bool> completionStatus = {
-      'innate_complete': prefs.getBool('profile_complete') ?? false,
-      'siblings_complete': prefs.getBool('test_complete') ?? false,
+      'profile_complete': prefs.getBool(profileKey) ?? false,
+      'test_complete': prefs.getBool(testKey) ?? false,
     };
 
     return completionStatus;
@@ -32,29 +34,37 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid ?? '';
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           //ユーザーがサインインしている場合
           return FutureBuilder<Map<String, bool>>(
-            future: checkDiagnosesCompletion(),
+            future: checkDiagnosesCompletion(userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Map<String, bool>? data = snapshot.data;
                 bool? profileComplete = data?['profile_complete'];
                 if (profileComplete == null || !profileComplete) {
                   // profileが未完了または診断の状態が不明の場合
+                  print(profileComplete);
+                  print("not profile or not diagnose");
                   return const ProfileConfirmationPage();
                 } else if (!(data?['test_complete'] ?? false)) {
                   // profileは完了し、testが未完了または診断の状態が不明の場合
-                  return const TestConfirmationPage();
+                  print("not diagnose or not test");
+                  return TestConfirmationPage();
                 } else {
                   // すべての診断が完了している場合
+                  print("all complete");
+                  print("all complete");
                   return LiquidSwipeViews();
                 }
               } else {
                 // データがまだロードされていない場合、ローディングスピナーを表示するなど
+                print("loading");
                 return const CircularProgressIndicator();
               }
             },

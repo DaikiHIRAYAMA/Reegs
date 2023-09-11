@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrScanViewModel extends StatelessWidget {
-  const QrScanViewModel({super.key});
+class MyProfileQRViewModel extends StatelessWidget {
+  final String userId;
+  const MyProfileQRViewModel({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class QrScanViewModel extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(255, 244, 213, 1),
       body: Center(
         child: QrImage(
-          data: 'https://www.google.com/',
+          data: userId,
           version: QrVersions.auto,
           size: qrSize, //QRコードのサイズ
           foregroundColor: Colors.pink, //QRコードの色
